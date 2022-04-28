@@ -1,8 +1,10 @@
 const User = require("./Usermodel");  // 01
 
 function getUsers(callback) { //02
-    User.find(function (err, users) /* 01 */ {
-        if (err) {
+    User.find(function (err, users) /* 01 */ 
+    {
+        if (err) 
+        {
             console.log("Error while searching; " + err);
             return callback(err, null);  // Fehler wird zurückgegeben, user = null, also nicht zurück
         }
@@ -11,6 +13,20 @@ function getUsers(callback) { //02
             return callback(null, users);  //err = null also kein Fehler zurück geben, sondern users
         }
     })
+}
+
+function findUserBy(searchUserID, callback)
+{
+    console.log("UserService: find User by ID: " + searchUserID);
+
+    if(!searchUserID)
+    {
+        callback("UserID is missing");
+        return
+    }
+    else{
+        var querry = User.findOne({ userID: searchUserID}) //querry wird asynchron ausgeführt
+    }
 }
 
 module.exports = { // 04

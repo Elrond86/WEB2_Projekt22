@@ -13,6 +13,7 @@ app.use('/', testRoutes);  //an welcher Stelle wollen wirs reinhängen
 app.use('/user', userRoutes);
 
 database.initDB(function(err,db){
+    
   if(db){
     console.log("Succesfully connected to Database.")
   }
