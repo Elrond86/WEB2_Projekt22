@@ -1,5 +1,5 @@
 var userService = require("../user/UserService")
-var jwt = require("jsonwebtoken") 
+var jwt = require("jsonwebtoken")
 var config = require("config")
 /* const logger = require("nodemon/lib/utils/log"); */
 
@@ -14,13 +14,17 @@ function createSessionToken(props, callback) {
     }
 
     userService.findUserBy(props.userID, function (error, user) {
-
+        console.log("Error in AuthenticationService -> createSessionToken -> userService.findUserBy: " + error)
         if (user) {
             console.log("Found user, checking password...")
 
             user.comparePassword(props.password, function (err, isMatch) {
 
                 if (err) {
+                    console.log("err: " + err)
+                    callback(err, null);
+                } 
+                else if (!isMatch) {
                     console.log("Password is invalid")
                     callback(err, null);
                 }
@@ -28,7 +32,7 @@ function createSessionToken(props, callback) {
                     console.log("Password is correct. Create token.")
 
                     var issueAt = new Date().getTime()
-                    var expirationTime = config.get("sessionStorage.timeout")
+                    var expirationTime = config.get("session.timeout")
                     var expiresAT = issueAt + (expirationTime * 1000)
                     var privateKey = config.get("session.tokenKey")
                     let token = jwt.sign({ "user": user.userID }, privateKey, { expiresIn: expiresAT, algorithm: "HS256" })
@@ -38,7 +42,7 @@ function createSessionToken(props, callback) {
                     callback(null, token, user)
                 }
             }
-            )              
+            )
         }
         else {
             console.log("Session Services: Did not find user for user ID: " + props.userID)

@@ -56,7 +56,7 @@ function findUserBy(searchUserID, callback) {
                     }
                     else {
                         console.log("Could not find user for userID: " + searchUserID)
-                        callback(null, user)
+                        callback(null, user)  // das kommt dann zurück und wird da zurckgegeben als function-return: userService.findUserBy(props.userID, function (error, user)
                     }
                 }
             }

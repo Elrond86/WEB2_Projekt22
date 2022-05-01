@@ -2,18 +2,14 @@ var express = require("express"); var router = express.Router();
 var authenticationService = require("./AuthenticationService")
 
 router.post("/login", function (req, res, next) {
-console.log("bin in AuthenticationRoute->router.post")
-console.log("req: " + typeof(req))
-console.log("res: " +res.body)
-    console.log("Want to create token")
+    console.log("Initiating Token-Generation...")
 
     authenticationService.createSessionToken(req.body, function (err, token, user) {
-        console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<bin in authenticationRoute->authenticationService.createSessionToken")
         if (token) {
 
             res.header("Authorization", "Bearer" + token)
-
-            if (user) { /* wenn user != null */
+            
+            if (user) {
                 const { id, userID, userName, ...partialObject } = user
                 const subset = { id, userID, userName } /* ich hole mir aus user nur id, userID und Namen!!!!!  *01*  */
                 console.log(JSON.stringify(subset))  /* ...dann schreib ich nur diese Userdaten hier in den Body und geb es... */

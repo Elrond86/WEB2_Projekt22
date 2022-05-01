@@ -5,7 +5,6 @@ const database = require("./database/db")
 const testRoutes = require("./endpoints/test/TestRoutes")
 const userRoutes = require("./endpoints/user/UserRoute")
 const authenticationRoutes = require("./endpoints/authentication/AuthenticationRoute")
-const { urlencoded } = require("express")
 
 const app = express()
 app.use(bodyParser.json())
