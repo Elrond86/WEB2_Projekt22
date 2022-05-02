@@ -1,23 +1,25 @@
 const User = require("./Usermodel")  // 01
+var config = require("config")
+var logger = require("../../config/winston")
 
 
 function getUsers(callback) /* 02 */ {
     // console.log("bin in getUsers")
     User.find(function (err, users) /* 01 */ {
         if (err) {
-            console.log("Error while searching; " + err)
+            logger.debug("Error while searching; " + err)
             return callback(err, null)  // Fehler wird zurückgegeben, user = null, also nicht zurück
         }
         else {
-            console.log("All fine")
+            logger.debug("All fine")
             return callback(null, users)  //err = null also kein Fehler zurück geben, sondern users
         }
     })
 }
 
 function findUserBy(searchUserID, callback) {
-    // console.log("bin in findUsers")
-    console.log("UserService: find User by ID: " + searchUserID)
+    // logger.debug("bin in findUsers")
+    logger.debug("UserService: find User by ID: " + searchUserID)
 
     if (!searchUserID) {
         callback("UserID is missing")
@@ -27,18 +29,19 @@ function findUserBy(searchUserID, callback) {
         var query = User.findOne({ userID: searchUserID }) // query object erstellen
         query.exec(function (err, user) { //query wird asynchron ausgeführt
             if (err) {
-                console.log("Did not find user for userID: " + searchUserID)
+                logger.debug("Did not find user for userID: " + searchUserID)
                 return callback("Did not find user for userID: " + searchUserID, null)  // callback übergibt fehlernachricht
             }
             else {
                 if (user) {
-                    console.log(`Found userID: ${searchUserID}`)
+                    logger.debug(`Found userID: ${searchUserID}`)
                     callback(null, user)
                 }
                 else {
                     if ("admin" == searchUserID) {  //kommt nur, wenn ich mich als "admin" einloggen will und es diesen user nicht gibt.
                         console.log("Do not have admin account yet. Creating it with default password...")
                         var adminUser = new User()
+                        adminUser.ID = ""
                         adminUser.userID = "admin"
                         adminUser.password = "123"
                         adminUser.userName = "Default Administrator Account"
@@ -46,7 +49,7 @@ function findUserBy(searchUserID, callback) {
 
                         adminUser.save(function (err) {
                             if (err) {
-                                console.log("Could not create default admin account: " + err)
+                                logger.debug("Could not create default admin account: " + err)
                                 callback("Could not login to admin account", null)
                             }
                             else {
@@ -55,7 +58,7 @@ function findUserBy(searchUserID, callback) {
                         })
                     }
                     else {
-                        console.log("Could not find user for userID: " + searchUserID)
+                        logger.debug("Could not find user for userID: " + searchUserID)
                         callback(null, user)  // das kommt dann zurück und wird da zurckgegeben als function-return: userService.findUserBy(props.userID, function (error, user)
                     }
                 }

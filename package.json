@@ -9,11 +9,14 @@
   "author": "Lucas",
   "license": "ISC",
   "dependencies": {
+    "app-root-path": "^3.0.0",
     "bcryptjs": "^2.4.3",
     "config": "^3.3.7",
     "express": "^4.17.3",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.3.1",
-    "nodemon": "^2.0.16"
+    "nodemon": "^2.0.16",
+    "path": "^0.12.7",
+    "winston": "^3.7.2"
   }
 }

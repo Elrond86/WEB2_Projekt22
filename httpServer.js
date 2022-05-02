@@ -9,6 +9,7 @@ const authenticationRoutes = require("./endpoints/authentication/AuthenticationR
 const app = express()
 app.use(bodyParser.json())
 
+
 /* Adding the Routes */
 
 app.use("/", testRoutes)  //an welcher Stelle wollen wirs reinhängen
@@ -24,14 +25,19 @@ database.initDB(function (err, db) {
   }
 })
 
+
 /* Error Handler */
-app.use(function(req, res, next) {
+
+app.use(function (req, res, next) {
   res.status(404).send("Sorry can't find this url.")
 })
 
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   res.status(500).send("Something broke.")
 })
+
+
+/*Starting the Server*/
 
 const port = 8080
 app.listen(port, () => {

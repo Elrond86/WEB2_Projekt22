@@ -1,35 +1,35 @@
 var userService = require("../user/UserService")
 var jwt = require("jsonwebtoken")
 var config = require("config")
-/* const logger = require("nodemon/lib/utils/log"); */
+var logger = require("../../config/winston")
 
 
 function createSessionToken(props, callback) {
-    console.log("AuthenticationService: create Token");
+    logger.debug("AuthenticationService: create Token");
 
     if (!props) {
-        console.log("Error: have no json body")
+        //logger.debug("Error: have no json body")
+        logger.debug("Error: have no json body")
         callback("JSON-Body missing", null, null)
         return
     }
 
     userService.findUserBy(props.userID, function (error, user) {
-        console.log("Error in AuthenticationService -> createSessionToken -> userService.findUserBy: " + error)
         if (user) {
-            console.log("Found user, checking password...")
+            logger.debug("Found user, checking password...")
 
             user.comparePassword(props.password, function (err, isMatch) {
 
                 if (err) {
-                    console.log("err: " + err)
+                    logger.debug("err: " + err)
                     callback(err, null);
-                } 
+                }
                 else if (!isMatch) {
-                    console.log("Password is invalid")
+                    logger.debug("Password is invalid")
                     callback(err, null);
                 }
                 else {
-                    console.log("Password is correct. Create token.")
+                    logger.debug("Password is correct. Creating token...")
 
                     var issueAt = new Date().getTime()
                     var expirationTime = config.get("session.timeout")
@@ -37,6 +37,7 @@ function createSessionToken(props, callback) {
                     var privateKey = config.get("session.tokenKey")
                     let token = jwt.sign({ "user": user.userID }, privateKey, { expiresIn: expiresAT, algorithm: "HS256" })
 
+                    logger.debug("Token created: " + token)
                     console.log("Token created: " + token)
 
                     callback(null, token, user)
@@ -45,7 +46,7 @@ function createSessionToken(props, callback) {
             )
         }
         else {
-            console.log("Session Services: Did not find user for user ID: " + props.userID)
+            logger.debug("Session Services: Did not find user for user ID: " + props.userID)
             callback("Did not find user", null);
         }
     })

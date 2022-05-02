@@ -1,8 +1,11 @@
 var express = require("express"); var router = express.Router();
 var authenticationService = require("./AuthenticationService")
+var config = require("config")
+var logger = require("../../config/winston")
 
 router.post("/login", function (req, res, next) {
-    console.log("Initiating Token-Generation...")
+    logger.debug("Initiating Token-Generation...")
+    console.log(`Initiating Token-Generation for User with userID '${req.body.userID}'...`)
 
     authenticationService.createSessionToken(req.body, function (err, token, user) {
         if (token) {
