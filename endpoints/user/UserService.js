@@ -47,14 +47,14 @@ function findUserBy(searchUserID, callback) {
 
 function createUser(userData, result) {
     console.log("Do not have admin account yet. Creating it with default password...")
-    var userData = new User()
-    userData.ID = ""
-    userData.userID = "admin"
-    userData.password = "123"
-    userData.userName = "Default Administrator Account"
-    userData.isAdministrator = true
+    var user = new User()
+    //user.ID = userData.ID
+    user.userID = userData.userID
+    user.userName = userData.password
+    user.password = userData.userName
+    user.isAdministrator = userData.isAdministrator
 
-    userData.save(function (err) {
+    user.save(function (err) {
         if (err) {
             logger.debug("Could not create default admin account: " + err)
             callback("Could not login to admin account", null)
@@ -66,11 +66,11 @@ function createUser(userData, result) {
 }
 
 
-    module.exports = { // 04
-        getUsers,
-        findUserBy,
-        createUser,
-    }
+module.exports = { // 04
+    getUsers,
+    findUserBy,
+    createUser,
+}
 
 
 /*

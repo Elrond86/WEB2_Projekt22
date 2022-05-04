@@ -40,36 +40,23 @@ router.get('/:userID', function (req, res, next) {
 
 /* create one user */
 
-router.post("/signup", function (req, res, next) {
+router.post("/", function (req, res, next) {
     logger.debug("Processing UserData...")
     console.log(`Processing UserData... for User with userID '${req.body.userID}'...`)
 
     userService.createUser(req.body, function (err, result) {
+        if (err) {
+            logger.debug("Could not create user: " + req.userID)
+            return callback("Could not create user: " + req.userID, null)  // callback übergibt fehlernachricht
+        }
+        else{
 
-
-
-        if ("admin" == searchUserID) {  //kommt nur, wenn ich mich als "admin" einloggen will und es diesen user nicht gibt.
-                console.log("Do not have admin account yet. Creating it with default password...")
-                var adminUser = new User()
-                adminUser.ID = ""
-                adminUser.userID = "admin"
-                adminUser.password = "123"
-                adminUser.userName = "Default Administrator Account"
-                adminUser.isAdministrator = true
-
-                adminUser.save(function (err) {
-                    if (err) {
-                        logger.debug("Could not create default admin account: " + err)
-                        callback("Could not login to admin account", null)
-                    }
-                    else {
-                        callback(null, adminUser)
-                    }
-                })
+        }
+        
             }
         else {
-                logger.debug("Could not find user for userID: " + searchUserID)
-                callback(null, user)  // das kommt dann zurück und wird da zurckgegeben als function-return: userService.findUserBy(props.userID, function (error, user)
+                logger.debug("Could not find user for userID: " + req.userID)
+                callback(null, user)  // das kommt dann zurück und wird da zurückgegeben als function-return: userService.findUserBy(props.userID, function (error, user)
         }
         
 
