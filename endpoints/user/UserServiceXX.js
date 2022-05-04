@@ -18,74 +18,6 @@ function getUsers(callback) /* 02 */ {
 }
 
 function findUserBy(searchUserID, callback) {
-    // logger.debug("bin in findUserBy")
-    logger.debug("UserService: find User by ID: " + searchUserID)
-
-    if (!searchUserID) {
-        callback("UserID is missing")
-        return
-    }
-    else {
-        var query = User.findOne({ userID: searchUserID }) // query object erstellen
-        query.exec(function (err, user) { //query wird asynchron ausgeführt
-            if (err) {
-                logger.debug("Did not find user for userID: " + searchUserID)
-                return callback("Did not find user for userID: " + searchUserID, null)  // callback übergibt fehlernachricht
-            }
-            else {
-                logger.debug(`Found userID: ${searchUserID}`)
-                callback(null, user)
-
-            }
-        })
-    }
-}
-
-
-
-
-
-function createUser(userData, result) {
-    console.log("Do not have admin account yet. Creating it with default password...")
-    var userData = new User()
-    userData.ID = ""
-    userData.userID = "admin"
-    userData.password = "123"
-    userData.userName = "Default Administrator Account"
-    userData.isAdministrator = true
-
-    userData.save(function (err) {
-        if (err) {
-            logger.debug("Could not create default admin account: " + err)
-            callback("Could not login to admin account", null)
-        }
-        else {
-            result.send(null, userData)
-        }
-    })
-}
-
-
-    module.exports = { // 04
-        getUsers,
-        findUserBy,
-        createUser,
-    }
-
-
-/*
-01 damit wir mit Userservice auf DB zugriefen können, brauchen wir Usermodel
-
-02 in callbackmethode wird Ergebnis reingeschrieben. Callback methode wird übergeben beim Aufruf
-
-03 find(x()) ist asynchrone function wo callback-methode erwaret wird. diese bekommt ein error-object und users, die wir als ergebnis zurück bekommen so werden bei mongoose immer callbacks ausgeführt: es werden 2 parameter übergeben: Errror-Objekt, falls ein Error Auftritt und das Ergebnis: der querry "users" 
-
-04  exports in Array- Form, damit man später noch mehr Methoden einreihen kann, zum Exportieren
-
-*/
-
-
-/* function findUserBy(searchUserID, callback) {
     logger.debug("bin in findUsers")
     logger.debug("UserService: find User by ID: " + searchUserID)
 
@@ -133,4 +65,22 @@ function createUser(userData, result) {
             }
         })
     }
-} */
+}
+
+module.exports = { // 04
+    getUsers,
+    findUserBy,
+}
+
+
+
+/*
+01 damit wir mit Userservice auf DB zugriefen können, brauchen wir Usermodel
+
+02 in callbackmethode wird Ergebnis reingeschrieben. Callback methode wird übergeben beim Aufruf
+
+03 find(x()) ist asynchrone function wo callback-methode erwaret wird. diese bekommt ein error-object und users, die wir als ergebnis zurück bekommen so werden bei mongoose immer callbacks ausgeführt: es werden 2 parameter übergeben: Errror-Objekt, falls ein Error Auftritt und das Ergebnis: der querry "users" 
+
+04  exports in Array- Form, damit man später noch mehr Methoden einreihen kann, zum Exportieren
+
+*/

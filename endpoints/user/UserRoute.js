@@ -28,6 +28,7 @@ router.get('/:userID', function (req, res, next) {
         if (result) {
             logger.debug("Found user, checking password...")
             res.send(Object.assign(result))
+            //res.send(Object.values(result))
         }
         else {
             logger.debug("Session Services: Did not find user for user ID: " + props.userID)
@@ -40,8 +41,41 @@ router.get('/:userID', function (req, res, next) {
 /* create one user */
 
 router.post("/signup", function (req, res, next) {
-    userService.createUser(function (err, result) {
+    logger.debug("Processing UserData...")
+    console.log(`Processing UserData... for User with userID '${req.body.userID}'...`)
 
+    userService.createUser(req.body, function (err, result) {
+
+
+
+        if ("admin" == searchUserID) {  //kommt nur, wenn ich mich als "admin" einloggen will und es diesen user nicht gibt.
+                console.log("Do not have admin account yet. Creating it with default password...")
+                var adminUser = new User()
+                adminUser.ID = ""
+                adminUser.userID = "admin"
+                adminUser.password = "123"
+                adminUser.userName = "Default Administrator Account"
+                adminUser.isAdministrator = true
+
+                adminUser.save(function (err) {
+                    if (err) {
+                        logger.debug("Could not create default admin account: " + err)
+                        callback("Could not login to admin account", null)
+                    }
+                    else {
+                        callback(null, adminUser)
+                    }
+                })
+            }
+        else {
+                logger.debug("Could not find user for userID: " + searchUserID)
+                callback(null, user)  // das kommt dann zurück und wird da zurckgegeben als function-return: userService.findUserBy(props.userID, function (error, user)
+        }
+        
+
+
+
+        res.send("...")
     })
 })
 
