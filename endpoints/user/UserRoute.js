@@ -27,7 +27,7 @@ router.get('/:userID', function (req, res, next) {
    userService.findUserBy(userID, function (error, result) {
     if (result) {
         logger.debug("Found user, checking password...")
-        res.send(Object.values(result))
+        res.send(Object.assign(result))
     }
     else {
         logger.debug("Session Services: Did not find user for user ID: " + props.userID)
@@ -38,32 +38,6 @@ router.get('/:userID', function (req, res, next) {
     //res.json(userID)
 })
 
-router.get("/:userID", function (req, res, next) {
-    logger.debug("Looking up the user...")
-    console.log(`Initiating Token-Generation for User with userID '${req.body.userID}'...`)
-
-    authenticationService.createSessionToken(req.body, function (err, token, user) {
-        if (token) {
-
-            res.header("Authorization", "Bearer" + token)
-            
-            if (user) {
-                const { id, userID, userName, ...partialObject } = user
-                const subset = { id, userID, userName } /* ich hole mir aus user nur id, userID und Namen!!!!!  *01*  */
-                console.log(JSON.stringify(subset))  /* ...dann schreib ich nur diese Userdaten hier in den Body und geb es... */
-                res.send(subset) /* ...an die response zurück  */
-            }
-            else {
-                console.log("User is null, even though a token has been created. Error: " + err)
-                res.send("Could create token")
-            }
-        }
-        else {
-            console.log("Token has not been created, Error: " + err)
-            res.send("Could not create token")
-        }
-    })
-})
 
 //create one user
 router.post("/signup", function (req, res, next) {
