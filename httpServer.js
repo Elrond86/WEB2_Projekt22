@@ -12,7 +12,7 @@ app.use(bodyParser.json())
 /* Adding the Routes */
 
 app.use("/", testRoutes)  //an welcher Stelle wollen wirs reinhängen
-app.use("/publicusers", userRoutes)
+app.use("/publicUsers", userRoutes)
 
 database.initDB(function (err, db) {
   if (db) {
