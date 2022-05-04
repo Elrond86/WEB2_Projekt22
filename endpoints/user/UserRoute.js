@@ -18,42 +18,42 @@ router.get("/", function (req, res, next) {        // req ist http-Request-objec
     })
     logger.debug("Everything working fine in user route")
 }
-) 
+)
 
-//get one user
+/* get one user */
 router.get('/:userID', function (req, res, next) {
     let userID = req.params.userID
-   // res.send(userID)
-   userService.findUserBy(userID, function (error, result) {
-    if (result) {
-        logger.debug("Found user, checking password...")
-        res.send(Object.assign(result))
-    }
-    else {
-        logger.debug("Session Services: Did not find user for user ID: " + props.userID)
-        callback("Did not find user", null);
-    }
-})
-//    res.send("Implementiere mich!")
-    //res.json(userID)
+    // res.send(userID)
+    userService.findUserBy(userID, function (error, result) {
+        if (result) {
+            logger.debug("Found user, checking password...")
+            res.send(Object.assign(result))
+        }
+        else {
+            logger.debug("Session Services: Did not find user for user ID: " + props.userID)
+            callback("Did not find user", null);
+        }
+    })
+
 })
 
+/* create one user */
 
-//create one user
 router.post("/signup", function (req, res, next) {
     userService.createUser(function (err, result) {
 
     })
 })
 
-//update one User  (put würde alle parameter updaten. patch nur das, was übergeben wird)
+/* update one User */   //(put würde alle parameter updaten. patch nur das, was übergeben wird)
+
 router.patch("/", function (req, res, next) {
     userService.createUser(function (err, result) {
 
     })
 })
 
-//delete one user
+/* delete one user */
 router.delete("/:userID", function (req, res, next) {
     userService.createUser(function (err, result) {
 
