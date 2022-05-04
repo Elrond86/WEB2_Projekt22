@@ -4,7 +4,6 @@ const database = require("./database/db")
 
 const testRoutes = require("./endpoints/test/TestRoutes")
 const userRoutes = require("./endpoints/user/UserRoute")
-const authenticationRoutes = require("./endpoints/authentication/AuthenticationRoute")
 
 const app = express()
 app.use(bodyParser.json())
@@ -13,8 +12,7 @@ app.use(bodyParser.json())
 /* Adding the Routes */
 
 app.use("/", testRoutes)  //an welcher Stelle wollen wirs reinhängen
-app.use("/user", userRoutes)
-app.use("/authenticate", authenticationRoutes)
+app.use("/publicusers", userRoutes)
 
 database.initDB(function (err, db) {
   if (db) {

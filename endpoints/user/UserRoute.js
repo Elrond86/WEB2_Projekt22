@@ -20,4 +20,32 @@ router.get("/", function (req, res, next) {        // req ist http-Request-objec
 }
 )
 
+//get one user
+router.get('/:userID', function (req, res, next) {
+    userService.findUserBy
+    res.send("Implementiere mich!")
+})
+
+//create one user
+router.post("/signup", function (req, res, next) {
+    userService.createUser(function (err, result) {
+
+    })
+})
+
+//update one User  (put würde alle parameter updaten. patch nur das, was übergeben wird)
+router.patch("/", function (req, res, next) {
+    userService.createUser(function (err, result) {
+
+    })
+})
+
+//delete one user
+router.delete("/:userID", function (req, res, next) {
+    userService.createUser(function (err, result) {
+
+    })
+})
+
+
 module.exports = router
