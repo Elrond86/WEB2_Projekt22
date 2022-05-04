@@ -1,0 +1,51 @@
+// Rufe alle User ab. Zu Beginn sollten keine User in der Datenbank sein. 
+###
+GET http://localhost:8080/publicUsers
+
+// Lege ersten User an, der Administrator ist
+###
+POST http://localhost:8080/publicUsers
+Content-Type: application/json
+
+{
+    "userID": "admin",
+    "userName": "Udo",
+    "password": "123",
+    "isAdministrator": true
+}
+
+// Rufe den User mit UserID admin ab. 
+###
+GET http://localhost:8080/publicUsers/admin
+
+// Lege zweiten User an. Prüfe UserID und UserName, ob die Angaben korrekt sind.
+###
+POST http://localhost:8080/publicUsers
+Content-Type: application/json
+
+{
+    "userID": "manfred",
+    "userName": "Manfred Mustermann",
+    "password": "asdf"
+}
+
+// Ändere beim zweiten User den User-Name. Zur Selektion des Users verwende die userID.
+###
+PUT http://localhost:8080/publicUsers/manfred
+Content-Type: application/json
+
+{
+    "userName": "Manfred Müller"
+}
+
+// Rufe alle User ab. Es sollten 2 User zurückgegeben werden.
+###
+GET http://localhost:8080/publicUsers
+
+// Lösche den User mit der User-ID manfred
+###
+DELETE  http://localhost:8080/publicUsers/manfred
+
+
+Toucan
+Übersetzen
