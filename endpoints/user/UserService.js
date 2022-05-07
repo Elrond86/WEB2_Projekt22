@@ -42,12 +42,7 @@ function findUserBy(searchUserID, callback) {
 function createUser(userData, callback) {
     logger.debug(`creating new User '${userData.userName}'`)
     let user = new User()
-    user.ID = userData.ID
-    user.userID = userData.userID
-    user.userName = userData.userName
-    user.password = userData.password
-    user.isAdministrator = userData.isAdministrator
-    //Object.assign(user.body, userData)
+    Object.assign(user, userData)
     user.save(function (err) {
         if (err) {
             logger.debug("Could not create user account: " + err)
