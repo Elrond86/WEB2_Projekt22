@@ -8,9 +8,9 @@ var logger = require("../../config/winston")
 var userService = require("./UserService")
 
 router.get("/", function (req, res, next) {        // req ist http-Request-object und wird von Express übergeben,res ist http-response object (kommt auch von Express) ,next geht zur nächsten Router in der pipeline
-    userService.getUsers(function (err, result) {
-        if (result) {
-            res.send(Object.values(result))  //wenn result Objekt nicht NULL ist, in ein Array-Objekt überführen  anders gesagt : "result kommt zurück"
+    userService.getUsers(function (err, user) {
+        if (user) {
+            res.send(Object.values(user))  //wenn user Objekt nicht NULL ist, in ein Array-Objekt überführen  anders gesagt : "user kommt zurück"
         }
         else {
             res.send("There were issues")  //Wenn Error
@@ -22,61 +22,49 @@ router.get("/", function (req, res, next) {        // req ist http-Request-objec
 
 /* get one user */
 router.get('/:userID', function (req, res, next) {
-    let userID = req.params.userID
-    // res.send(userID)
-    userService.findUserBy(userID, function (error, result) {
-        if (result) {
-            logger.debug("Found user, checking password...")
-            res.send(Object.assign(result))
-            //res.send(Object.values(result))
+    userService.findUserBy(req.params.userID, function (err, user) {
+        if (user) {
+            //res.send(Object.assign(user))
+            logger.debug(user)
+            res.json(user)
         }
         else {
-            logger.debug("Session Services: Did not find user for user ID: " + props.userID)
-            callback("Did not find user", null);
+            logger.error(err)
+            res.send([])
         }
     })
-
 })
 
 /* create one user */
 
 router.post("/", function (req, res, next) {
-    logger.debug("Processing UserData...")
-    console.log(`Processing UserData... for User with userID '${req.body.userID}'...`)
+    state = `Processing UserData... for User with userID '${req.body.userID}'...`;    logger.debug(state);    console.log(state)
 
-    userService.createUser(req.body, function (err, result) {
-        if (err) {
-            logger.debug("Could not create user: " + req.userID)
-            return callback("Could not create user: " + req.userID, null)  // callback übergibt fehlernachricht
+    userService.createUser(req.body, function (err, user) {
+        if (user) {
+            res.send(user)
+            //res.send(null, user).json
+            //res.send(null, user)  // das kommt dann zurück und wird da zurückgegeben als function-return: userService.findUserBy(props.userID, function (error, user)
         }
-        else{
-
-        }
-        
-            }
         else {
-                logger.debug("Could not find user for userID: " + req.userID)
-                callback(null, user)  // das kommt dann zurück und wird da zurückgegeben als function-return: userService.findUserBy(props.userID, function (error, user)
+            logger.debug("Could not create user: " + req.body.userID)
+            res.send("Could not create user: " + req.body.userID, null)  // callback übergibt fehlernachricht
+
         }
-        
-
-
-
-        res.send("...")
     })
 })
 
 /* update one User */   //(put würde alle parameter updaten. patch nur das, was übergeben wird)
 
 router.patch("/", function (req, res, next) {
-    userService.createUser(function (err, result) {
+    userService.createUser(function (err, user) {
 
     })
 })
 
 /* delete one user */
 router.delete("/:userID", function (req, res, next) {
-    userService.createUser(function (err, result) {
+    userService.createUser(function (err, user) {
 
     })
 })

@@ -1,10 +1,10 @@
 const User = require("./Usermodel")  // 01
 var config = require("config")
 var logger = require("../../config/winston")
+const { trusted } = require("mongoose/lib/helpers/query/trusted")
 
-
+//get all users
 function getUsers(callback) /* 02 */ {
-    // console.log("bin in getUsers")
     User.find(function (err, users) /* 01 */ {
         if (err) {
             logger.debug("Error while searching; " + err)
@@ -17,53 +17,52 @@ function getUsers(callback) /* 02 */ {
     })
 }
 
+//find User by userID
 function findUserBy(searchUserID, callback) {
-    // logger.debug("bin in findUserBy")
-    logger.debug("UserService: find User by ID: " + searchUserID)
-
-    if (!searchUserID) {
-        callback("UserID is missing")
-        return
-    }
-    else {
-        var query = User.findOne({ userID: searchUserID }) // query object erstellen
-        query.exec(function (err, user) { //query wird asynchron ausgeführt
-            if (err) {
-                logger.debug("Did not find user for userID: " + searchUserID)
-                return callback("Did not find user for userID: " + searchUserID, null)  // callback übergibt fehlernachricht
-            }
-            else {
-                logger.debug(`Found userID: ${searchUserID}`)
-                callback(null, user)
-
-            }
-        })
-    }
+    logger.debug(`UserService: searching for user with userID '${searchUserID}'...`)
+    let query = User.findOne({ userID: searchUserID }) // query object erstellen
+    query.exec(function (err, user) { //query wird asynchron ausgeführt
+        if (err) {
+            logger.error(err.message)
+            return callback(err.message)  // callback übergibt fehlernachricht
+        }
+        if (user) {  // hier wirkt null wie false
+            logger.debug(`Found userID: ${searchUserID}`)
+            callback(null, user)
+        }
+        else {
+            //logger.error("Did not find user for userID: " + searchUserID)
+            callback(`Did not find user with userID: ${searchUserID}`, user)  // callback übergibt fehlernachricht
+        };
+    })
 }
 
 
-
-
-
-function createUser(userData, result) {
-    console.log("Do not have admin account yet. Creating it with default password...")
-    var user = new User()
-    //user.ID = userData.ID
+//create User
+function createUser(userData, callback) {
+    logger.debug(`creating new User '${userData.userName}'`)
+    let user = new User()
+    user.ID = userData.ID
     user.userID = userData.userID
-    user.userName = userData.password
-    user.password = userData.userName
+    user.userName = userData.userName
+    user.password = userData.password
     user.isAdministrator = userData.isAdministrator
-
+    //Object.assign(user.body, userData)
     user.save(function (err) {
         if (err) {
-            logger.debug("Could not create default admin account: " + err)
-            callback("Could not login to admin account", null)
+            logger.debug("Could not create user account: " + err)
+            callback("Could not create user account", null)
         }
         else {
-            result.send(null, userData)
+            return callback(null, user)
         }
     })
 }
+
+/* für Update (id darf nicht geändert werden)
+delete userData.userID
+ */
+
 
 
 module.exports = { // 04

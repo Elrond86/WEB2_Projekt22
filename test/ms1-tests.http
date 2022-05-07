@@ -17,7 +17,6 @@ Content-Type: application/json
 // Rufe den User mit UserID admin ab. 
 ###
 GET http://localhost:8080/publicUsers/admin
-
 // Lege zweiten User an. Prüfe UserID und UserName, ob die Angaben korrekt sind.
 ###
 POST http://localhost:8080/publicUsers
