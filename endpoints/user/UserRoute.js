@@ -30,7 +30,7 @@ router.get('/:userID', function (req, res, next) {
         }
         else {
             logger.error(err)
-            res.send([])
+            res.send("Did not find any User with this userID" + [])
         }
     })
 })
@@ -42,8 +42,8 @@ router.post("/", function (req, res, next) {
 
     userService.createUser(req.body, function (err, user) {
         if (user) {
-            res.send(user)
-            //res.send(null, user).json
+            res.send(`User ${req.body.userID} sucessfully created \r\r with Json-Body: \r ` + user)
+            //res.send(user)
             //res.send(null, user)  // das kommt dann zurück und wird da zurückgegeben als function-return: userService.findUserBy(props.userID, function (error, user)
         }
         else {
