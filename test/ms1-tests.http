@@ -17,6 +17,7 @@ Content-Type: application/json
 // Rufe den User mit UserID admin ab. 
 ###
 GET http://localhost:8080/publicUsers/admin
+
 // Lege zweiten User an. Prüfe UserID und UserName, ob die Angaben korrekt sind.
 ###
 POST http://localhost:8080/publicUsers
@@ -44,6 +45,11 @@ GET http://localhost:8080/publicUsers
 // Lösche den User mit der User-ID manfred
 ###
 DELETE  http://localhost:8080/publicUsers/manfred
+
+
+// Lösche alle User
+###
+DELETE  http://localhost:8080/publicUsers/
 
 
 Toucan

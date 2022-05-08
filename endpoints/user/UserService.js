@@ -18,9 +18,9 @@ function getUsers(callback) /* 02 */ {
 }
 
 //find User by userID
-function findUserBy(searchUserID, callback) {
+function findUserBy(searchUserID, callback) { //UserService > findUserBy() callback
     logger.debug(`UserService: searching for user with userID '${searchUserID}'...`)
-    let query = User.findOne({ userID: searchUserID }) // query object erstellen
+    const query = User.findOne({ userID: searchUserID }) // query object erstellen
     query.exec(function (err, user) { //query wird asynchron ausgeführt
         if (err) {
             logger.error(err.message)
@@ -36,7 +36,6 @@ function findUserBy(searchUserID, callback) {
         };
     })
 }
-
 
 //create User
 function createUser(userData, callback) {
@@ -54,9 +53,104 @@ function createUser(userData, callback) {
     })
 }
 
-/* für Update (id darf nicht geändert werden)
-delete userData.userID
- */
+
+/* für Update (id darf nicht geändert werden) */
+// update User
+function updateUserById(userID, body, callback) {
+    User.findOne({ "userID": userID }, function (err, user) {
+        if (user) {
+            Object.assign(user, body);
+            user.save(function (err) {
+                if (err) {
+                    callback(err, null, 500);
+                } else {
+                    const { userID, userName, isAdministrator, password, email, createdAt, updatedAt, ...partialObject } = user;
+                    const subset = { userID, userName, isAdministrator, password, email, createdAt, updatedAt };
+                    callback(null, subset, 200);
+                }
+            });
+        } else {
+            callback(`No user with ID ${userID} found`, null, 404);
+        }
+    });
+};
+
+// delete user by ID
+function deleteUserById(userID, callback) {
+    User.deleteOne({"userID": userID}, function (err, result) {
+        if (err) {
+            callback('Internal Server Error', null, 500);
+        } else {
+            if (result.deletedCount == 0) {
+                callback(`No user with ID ${userID} found`, null, 404);
+            } else {
+                callback(`User with ID ${userID} succesfully deleted`, true, 204);
+            };
+        }
+    });
+}
+
+// FOR DEV ONLY delete all users
+function deleteAllUsers(callback) {
+    User.deleteMany({}, function (err, result) {
+        if (err) {
+            callback(err);
+        } else {
+            callback(null, result);
+        }
+    });
+};
+
+// change admin status
+function changeAdministratorStatus(userID, isAdministrator, callback) {
+    if (isAdministrator != 'true' && isAdministrator != 'false') {
+        callback('Please provide a valid value for isAdministrator', null, 400);
+    } else {
+        User.findOneAndUpdate({
+            "userID": userID
+        }, {
+            "isAdministrator": isAdministrator
+        }, {
+            returnOriginal: false,
+            rawResult: true
+        }, function (err, result) {
+            if (err) {
+                callback(`Internal Server Error`, null, 500);
+            } else {
+                if (result.lastErrorObject.updatedExisting == false) {
+                    callback(`No user with ID ${userID} found`, null, 404);
+                } else {
+                    callback(null, result.value, 200);
+                }
+            }
+        }).select({
+            "_id": 0,
+            "__v": 0
+        });
+    }
+}
+
+// update user by ID
+function updateUserById(userID, body, callback) {
+    User.findOne({ "userID": userID }, function(err, user) {
+        if (user) {
+            Object.assign(user, body);
+            user.save( function (err) {
+                if (err) {
+                    callback(err, null, 500);
+                } else {
+                    const { userID, userName, isAdministrator, password, email, createdAt, updatedAt, ...partialObject } = user;
+                    const subset = { userID, userName, isAdministrator, password, email, createdAt, updatedAt };
+                    callback(null, subset, 200);
+                }
+            });
+        } else {
+            callback(`No user with ID ${userID} found`, null, 404);
+        }
+    });
+};
+
+
 
 
 
@@ -64,6 +158,12 @@ module.exports = { // 04
     getUsers,
     findUserBy,
     createUser,
+    //updateUser,
+    deleteUserById,
+    updateUserById,
+    deleteAllUsers,
+    changeAdministratorStatus,
+    updateUserById,
 }
 
 
@@ -77,54 +177,3 @@ module.exports = { // 04
 04  exports in Array- Form, damit man später noch mehr Methoden einreihen kann, zum Exportieren
 
 */
-
-
-/* function findUserBy(searchUserID, callback) {
-    logger.debug("bin in findUsers")
-    logger.debug("UserService: find User by ID: " + searchUserID)
-
-    if (!searchUserID) {
-        callback("UserID is missing")
-        return
-    }
-    else {
-        var query = User.findOne({ userID: searchUserID }) // query object erstellen
-        query.exec(function (err, user) { //query wird asynchron ausgeführt
-            if (err) {
-                logger.debug("Did not find user for userID: " + searchUserID)
-                return callback("Did not find user for userID: " + searchUserID, null)  // callback übergibt fehlernachricht
-            }
-            else {
-                if (user) {
-                    logger.debug(`Found userID: ${searchUserID}`)
-                    callback(null, user)
-                }
-                else {
-                    if ("admin" == searchUserID) {  //kommt nur, wenn ich mich als "admin" einloggen will und es diesen user nicht gibt.
-                        console.log("Do not have admin account yet. Creating it with default password...")
-                        var adminUser = new User()
-                        adminUser.ID = ""
-                        adminUser.userID = "admin"
-                        adminUser.password = "123"
-                        adminUser.userName = "Default Administrator Account"
-                        adminUser.isAdministrator = true
-
-                        adminUser.save(function (err) {
-                            if (err) {
-                                logger.debug("Could not create default admin account: " + err)
-                                callback("Could not login to admin account", null)
-                            }
-                            else {
-                                callback(null, adminUser)
-                            }
-                        })
-                    }
-                    else {
-                        logger.debug("Could not find user for userID: " + searchUserID)
-                        callback(null, user)  // das kommt dann zurück und wird da zurckgegeben als function-return: userService.findUserBy(props.userID, function (error, user)
-                    }
-                }
-            }
-        })
-    }
-} */
