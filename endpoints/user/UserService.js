@@ -39,7 +39,11 @@ function findUserBy(searchUserID, callback) {
 
 // create User
 function createUser(userData, callback) {
-    logger.debug(`creating new User '${userData.userName}'`)
+    if (!userData.userID){
+        return callback("You can not create a user without a userID", null)
+    }
+    else{
+        logger.debug(`creating new User '${userData.userName}'`)
     let user = new User()
     Object.assign(user, userData)
 
@@ -55,6 +59,8 @@ function createUser(userData, callback) {
             return callback(null, user)
         }
     })
+    }
+    
 }
 
 // update User

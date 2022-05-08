@@ -5,13 +5,13 @@ var logger = require("../../config/winston")
 var userService = require("./UserService")
 
 /* get all users */
-router.get("/", function (req, res, next) {        
+router.get("/", function (req, res, next) {
   userService.getUsers(function (err, user) {
     if (user) {
-      res.send(Object.values(user))  
+      res.send(Object.values(user))
     }
     else {
-      res.send("There were issues")  
+      res.send("There were issues")
     }
   })
   logger.debug("Everything working fine in user route")
@@ -21,7 +21,7 @@ router.get("/", function (req, res, next) {
 /* get one user */
 router.get('/:userID', function (req, res, next) {
   userService.findUserBy(req.params.userID,
-    function (err, user) { 
+    function (err, user) {
       if (user) {
         res.send(user)
         logger.debug(user)
