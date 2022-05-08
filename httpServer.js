@@ -11,7 +11,7 @@ app.use(bodyParser.json())
 
 /* Adding the Routes */
 
-app.use("/", testRoutes)  //an welcher Stelle wollen wirs reinhängen
+app.use("/", testRoutes)
 app.use("/publicUsers", userRoutes)
 
 database.initDB(function (err, db) {
@@ -35,7 +35,7 @@ app.use(function (req, res, next) {
 })
 
 
-/*Starting the Server*/
+/* Starting the Server */
 
 const port = 8080
 app.listen(port, () => {
