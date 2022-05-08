@@ -42,10 +42,14 @@ function createUser(userData, callback) {
     logger.debug(`creating new User '${userData.userName}'`)
     let user = new User()
     Object.assign(user, userData)
-    user.save(function (err) {
+
+    user.save(function (err, user) {
         if (err) {
-            logger.debug("Could not create user account: " + err)
-            callback("Could not create user account", null)
+            logger.error("Could not create user account: " + err)
+            if (err.code = 1100) {
+                return callback("User already exists!", null)
+            }
+            return callback("Could not create user account", null)
         }
         else {
             return callback(null, user)
@@ -77,7 +81,7 @@ function updateUserById(userID, body, callback) {
 
 // delete user by ID
 function deleteUserById(userID, callback) {
-    User.deleteOne({"userID": userID}, function (err, result) {
+    User.deleteOne({ "userID": userID }, function (err, result) {
         if (err) {
             callback('Internal Server Error', null, 500);
         } else {
@@ -132,10 +136,10 @@ function changeAdministratorStatus(userID, isAdministrator, callback) {
 
 // update user by ID
 function updateUserById(userID, body, callback) {
-    User.findOne({ "userID": userID }, function(err, user) {
+    User.findOne({ "userID": userID }, function (err, user) {
         if (user) {
             Object.assign(user, body);
-            user.save( function (err) {
+            user.save(function (err) {
                 if (err) {
                     callback(err, null, 500);
                 } else {
