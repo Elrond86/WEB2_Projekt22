@@ -1,0 +1,101 @@
+// Re-test Meilenstein 1, es sollte der Standard-Admin in der Datenbank sein
+###
+http://localhost:8080/publicUsers
+
+
+// Login mit Basic Authentication als admin mit korrekten Credentials admin:123
+###
+# @name loginAdminCorrect
+GET http://localhost:8080/authenticate
+Authorization: Basic YWRtaW46MTIz
+
+// Login mit Basic Authentication als admin mit falschen Credentials
+###
+GET http://localhost:8080/authenticate
+Authorization: Basic admin:1234
+
+@adminToken = {{loginAdminCorrect.response.headers.Authorization}}
+
+### Auflisten aller Nutzer ohne Token
+http://localhost:8080/users
+
+### Auflisten aller Nutzer mit Token von admin
+http://localhost:8080/users
+Authorization: {{adminToken}}
+
+### Lege neuen user manfred an
+POST http://localhost:8080/users
+Authorization: {{adminToken}}
+Content-Type: application/json
+
+{
+    "userID": "manfred",
+    "userName": "Manfred Mustermann",
+    "password": "asdf"
+}
+
+### Abrufen des angelegten Users mit dem Admin-Token
+GET http://localhost:8080/users/manfred
+Authorization: {{adminToken}}
+
+// Login mit Basic Authentication als manfred mit korrekten Credentials admin:123
+###
+# @name loginManfredCorrect
+GET http://localhost:8080/authenticate
+Authorization: Basic manfred:asdf
+
+@manfredToken = {{loginManfredCorrect.response.headers.Authorization}}
+
+### Auflisten aller Nutzer mit Token von manfred
+GET http://localhost:8080/users
+Authorization: {{manfredToken}}
+
+### Auflisten aller Foren ohne Token
+GET http://localhost:8080/forumThreads
+
+// Lege ein ersten Forum an, der Administrator ist owner
+###
+# @name createForumRequest
+POST http://localhost:8080/forumThreads
+Authorization: {{adminToken}}
+Content-Type: application/json
+
+{
+    "name": "Mein erstes Forum",
+    "description": "Das ist ein erstes Forum, das ich im Rahmen der Tests angelegt habe"
+}
+
+###
+@forumThreadID = {{createForumRequest.response.body._id}}
+
+### Auflisten aller Foren ohne Token, nun sollte es ein Forum geben
+http://localhost:8080/forumThreads
+
+### Abrufen von dem angelegten Forum-Thread
+http://localhost:8080/forumThreads/{{forumThreadID}}
+
+
+### Ändere die forumDescription in dem existierenden Forum
+PUT http://localhost:8080/forumThreads/{{forumThreadID}}
+Authorization: {{adminToken}}
+Content-Type: application/json
+
+{
+    "description": "Das ist der neue Text, warum auch nicht."
+}
+
+### Auflisten der Foren des aktuellen users
+GET http://localhost:8080/forumThreads/myForumThreads
+Authorization: {{adminToken}}
+
+### Auflisten der Foren einen bestimmten user
+GET http://localhost:8080/forumThreads?ownerID=manfred
+
+
+### Lösche den angelegten Forum-Thread
+DELETE http://localhost:8080/forumThreads/{{forumThreadID}}
+Authorization: {{adminToken}}
+
+### Lösche den User manfred
+DELETE http://localhost:8080/users/manfred
+Authorization: {{adminToken}}

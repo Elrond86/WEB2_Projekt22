@@ -198,3 +198,5 @@
 {"level":"error","message":"(endpoints\\user\\UserRoute.js:30) Did not find user with userID: admin"}
 {"level":"error","message":"(endpoints\\user\\UserService.js:48) Could not create user account: MongoServerError: E11000 duplicate key error collection: TestDB.users index: userID_1 dup key: { userID: null }"}
 {"level":"error","message":"(endpoints\\user\\UserService.js:52) Could not create user account: MongoServerError: E11000 duplicate key error collection: TestDB.users index: userID_1 dup key: { userID: \"admin\" }"}
+{"level":"error","message":"(endpoints\\user\\UserService.js:52) Could not create user account: MongoServerError: E11000 duplicate key error collection: TestDB.users index: userID_1 dup key: { userID: \"admin\" }"}
+{"level":"error","message":"(endpoints\\user\\UserService.js:52) Could not create user account: MongoServerError: E11000 duplicate key error collection: TestDB.users index: userID_1 dup key: { userID: \"admin\" }"}
