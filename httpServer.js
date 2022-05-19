@@ -3,7 +3,7 @@ const bodyParser = require("body-parser")
 const database = require("./database/db")
 
 const testRoutes = require("./endpoints/test/TestRoutes")
-const userRoutes = require("./endpoints/user/UserRoute")
+const PublicUserRoutes = require("./endpoints/user/UserRoute")
 
 const app = express()
 app.use(bodyParser.json())
@@ -12,7 +12,7 @@ app.use(bodyParser.json())
 /* Adding the Routes */
 
 app.use("/", testRoutes)
-app.use("/publicUsers", userRoutes)
+app.use("/publicUsers", PublicUserRoutes)
 
 database.initDB(function (err, db) {
   if (db) {
