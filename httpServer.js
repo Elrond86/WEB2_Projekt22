@@ -3,7 +3,8 @@ const bodyParser = require("body-parser")
 const database = require("./database/db")
 
 const testRoutes = require("./endpoints/test/TestRoutes")
-const PublicUserRoutes = require("./endpoints/user/UserRoute")
+const PublicUserRoutes = require("./endpoints/user/PublicUserRoute")
+//const UserRoutes = require("./endpoints/user/UserRoute")
 
 const app = express()
 app.use(bodyParser.json())
