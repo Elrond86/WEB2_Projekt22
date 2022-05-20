@@ -1,8 +1,8 @@
-var express = require("express")
-var router = express.Router()
-var config = require("config")
-var logger = require("../../config/winston")
-var publicUserService = require("./PublicUserService")
+const express = require("express")
+const router = express.Router()
+const config = require("config")
+const logger = require("../../config/winston")
+const PublicUserService = require("./PublicUserService")
 
 /* get all users */
 router.get("/", function (req, res, next) {

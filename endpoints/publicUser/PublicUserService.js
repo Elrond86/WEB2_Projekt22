@@ -1,4 +1,4 @@
-const User = require("./Usermodel")
+const User = require("../user/Usermodel")
 var config = require("config")
 var logger = require("../../config/winston")
 const { trusted } = require("mongoose/lib/helpers/query/trusted")
