@@ -1,7 +1,17 @@
-const User = require("./Usermodel")
+const User = require("./UserModel")
 var config = require("config")
 var logger = require("../../config/winston")
 const { trusted } = require("mongoose/lib/helpers/query/trusted")
+
+// ensure admin is in db
+async function ensureAdminExistence(){
+    try {
+        const response = await database.users.findOne(({ isAdministrator: true }))
+    } catch (err) {
+        console.log(err)
+    }
+}
+
 
 //get all users
 function getUsers(callback) {
@@ -147,4 +157,5 @@ module.exports = {
     deleteAllUsers,
     changeAdministratorStatus,
     updateUserById,
+    ensureAdminExistence,
 }

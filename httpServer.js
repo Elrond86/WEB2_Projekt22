@@ -1,11 +1,12 @@
 const express = require("express")
 const bodyParser = require("body-parser")
 const database = require("./database/db")
-
+//const findAdmin = require("./endpoints/test/SecureAdminExistence")
 const testRoutes = require("./endpoints/test/TestRoutes")
 const PublicUserRoutes = require("./endpoints/publicUser/PublicUserRoute")
 const UserRoutes = require("./endpoints/user/UserRoute")
 const AuthenticationRoutes = require("./endpoints/authentication/AuthenticationRoute")
+//const { db } = require("./endpoints/user/UserModel")
 
 const app = express()
 app.use(bodyParser.json())
@@ -26,6 +27,10 @@ database.initDB(function (err, db) {
     console.log("Connection to Database failed")
   }
 })
+
+/* Looking for an Administrator */
+//database.users.findOne(({ isAdministrator: true }))
+//findAdmin.processAdminExistence()
 
 
 /* Error Handler */
