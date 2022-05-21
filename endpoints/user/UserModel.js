@@ -26,7 +26,7 @@ UserSchema.pre("save", function (next) {
     console.log("Pre-save: " + this.password + " change: " + this.isModified("password"));
 
     if(!user.isModified("password")) { return next() };
-    bcrypt.hash(user.password, 10).then((hashedPassword) => {
+    bcrypt.hash(user.password, 10).then((hashedPassword) => { //hier wird das passwort bereits MIT salt gehasht. die stärke des SALTS ist 10. der SALT wird auf diese Weise aber NICHT vor den hashwert angehängt
         user.password = hashedPassword;
         next();    
     })
