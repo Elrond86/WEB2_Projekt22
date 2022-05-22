@@ -357,3 +357,4 @@
 {"level":"error","message":"(endpoints\\publicUser\\PublicUserService.js:44) Could not create user account: E11000 duplicate key error collection: TestDB.users index: userID_1 dup key: { userID: \"admin\" }"}
 {"level":"error","message":"(endpoints\\publicUser\\PublicUserService.js:44) Could not create user account: E11000 duplicate key error collection: TestDB.users index: userID_1 dup key: { userID: \"admin\" }"}
 {"level":"error","message":"(endpoints\\publicUser\\PublicUserService.js:44) Could not create user account: E11000 duplicate key error collection: TestDB.users index: userID_1 dup key: { userID: \"admin\" }"}
+{"level":"error","message":"(endpoints\\publicUser\\PublicUserService.js:44) Could not create user account: E11000 duplicate key error collection: TestDB.users index: userID_1 dup key: { userID: \"admin\" }"}
