@@ -31,9 +31,6 @@ async function createUser(userData) {
     })
 }
 
-// ensure admin is in db
-
-
 //find User by userID
 function findUserBy(searchUserID, callback) {
     logger.debug(`UserService: searching for user with userID '${searchUserID}'...`)
@@ -144,6 +141,32 @@ function getUsers(callback) {
     })
 }
 
+// ensure admin is in db
+async function findAdmin() {
+    try {
+        const user = await User.findOne({name: "admin"})
+        console.log(user)
+    } catch (err) {
+        console.log(err.message)
+    }
+}
+
+async function makeAdmin() {
+    console.log("Creating new default admin user...")
+    try {
+        const adminUser = await createUser({
+            userID: "admin",
+            password: "123",
+            userName: "Default Administrator Account",
+            isAdministrator: true,
+        }) 
+        return adminUser
+    } catch (err) {
+        logger.debug(err)
+        console.log("fail")
+    }
+};
+
 module.exports = {
     getUsers,
     findUserBy,
@@ -153,4 +176,6 @@ module.exports = {
     deleteAllUsers,
     changeAdministratorStatus,
     updateUserById,
+    findAdmin,
+    makeAdmin,
 }
