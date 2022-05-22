@@ -5,52 +5,28 @@ const { trusted } = require("mongoose/lib/helpers/query/trusted")
 
 
 // create User
-/* function createUser(userData, callback) {
-    if (!userData.userID){
-        return callback("You can not create a user without a userID", null)
-    }
-    else{
-        logger.debug(`creating new User '${userData.userName}'`)
-    let user = new User()
-    Object.assign(user, userData)
-
-    user.save(function (err, user) {
-        if (err) {
-            logger.error("Could not create user account: " + err)
-            if (err.code = 1100) {
-                return callback("User already exists!", null)
-            }
-            return callback("Could not create user account", null)
-        }
-        else {
-            return callback(null, user)
-        }
-    })
-    }
-    
-} */
 async function createUser(userData) {
     return new Promise((resolve, reject) => {
-        if (!userData.userID){
+        if (!userData.userID) {
             return reject("You can not create a user without a userID", null)
         }
-        else{
+        else {
             logger.debug(`creating new User '${userData.userName}'`)
-        let user = new User()
-        Object.assign(user, userData)
-    
-        user.save(function (err, user) {
-            if (err) {
-                logger.error("Could not create user account: " + err)
-                if (err.code = 1100) {
-                    return reject("User already exists!", null)
+            let user = new User()
+            Object.assign(user, userData)
+
+            user.save(function (err, user) {
+                if (err) {
+                    logger.error("Could not create user account: " + err)
+                    if (err.code = 1100) {
+                        return reject("User already exists!", null)
+                    }
+                    return reject("Could not create user account", null)
                 }
-                return reject("Could not create user account", null)
-            }
-            else {
-                return resolve(null, user)
-            }
-        })
+                else {
+                    return resolve(null, user)
+                }
+            })
         }
     })
 }
@@ -177,5 +153,4 @@ module.exports = {
     deleteAllUsers,
     changeAdministratorStatus,
     updateUserById,
-    //findOrMakeAdmin,
 }

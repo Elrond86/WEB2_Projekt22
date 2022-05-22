@@ -8,7 +8,6 @@ function createSessionToken(props, callback) {
     logger.debug("AuthenticationService: create Token");
 
     if (!props) {
-        //logger.debug("Error: have no json body")
         logger.debug("Error: have no json body")
         callback("JSON-Body missing", null, null)
         return
