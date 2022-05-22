@@ -22,20 +22,44 @@ app.use("/authenticate", AuthenticationRoutes)
 database.initDB(function (err, db) {
   if (db) {
     console.log("Succesfully connected to Database.")
-    let user = UserService.findAdmin()
-    console.log(user)
-    user => {
-      if(user) return
-      else UserService.makeAdmin()
-    }
 
   }
   else {
     console.log("Connection to Database failed")
   }
-})
+});
 
 /* Looking for an Administrator */
+
+async function mustHaveAdmin() {
+  try {
+    return UserService.findAdmin({});
+  }
+  catch (err) {
+    console.error(error);
+  }
+};
+
+(async function () {
+  const results = await mustHaveAdmin();
+  console.log(results);
+})();
+
+
+/** 
+ console.log("findAdmin-Promise result is: " + result)
+  console.log("user: " + user)
+  user => {
+    if(user != null || user != undefined) return
+    else {
+      console.log("kein admin")
+      //UserService.makeAdmin()
+    }
+  }
+}) */
+
+
+
 
 
 

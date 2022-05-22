@@ -143,16 +143,16 @@ function getUsers(callback) {
 
 // ensure admin is in db
 async function findAdmin() {
-    try {
-        const user = await User.findOne({isAdministrator: true})
-        console.log(user)
+/*     try {
+        const user = await User.exists({isAdministrator: true})
+        console.log("user: " + user)
     } catch (err) {
         console.log(err.message)
-    }
+    } */
 }
 
 async function makeAdmin() {
-    console.log("Creating new default admin user...")
+    /* console.log("Creating new default admin user...")
     try {
         const adminUser = await createUser({
             userID: "admin",
@@ -164,7 +164,7 @@ async function makeAdmin() {
     } catch (err) {
         logger.debug(err)
         console.log("fail")
-    }
+    } */
 };
 
 module.exports = {
