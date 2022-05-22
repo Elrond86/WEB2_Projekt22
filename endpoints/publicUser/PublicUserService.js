@@ -49,7 +49,8 @@ async function createUser(userData) {
                  reject("Could not create user account")
             }
             else {
-                 resolve(user)
+                logger.debug(user)
+                resolve(user)
             }
         })
         }

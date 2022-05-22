@@ -54,11 +54,12 @@ router.get('/:userID', function (req, res, next) {
       logger.debug(state)
       console.log(state)
       const res = await PublicUserService.createUser(req.body)
-      res.send(`User ${req.body.userID} sucessfully created \r\r with Json-Body: \r ` + message)      
+      res.send(`User ${req.body.userID} sucessfully created \r\r with Json-Body: \r ` + user)
+      console.log("User erstellt")
     } catch(err) {
       res.send(err)
     }
-  })
+  });
 
 /* update user */
 router.put('/:userID', function (req, res, next) {

@@ -1,3 +1,10 @@
+
+// Lösche alle User
+###
+DELETE  http://localhost:8080/publicUsers/
+
+
+
 // Rufe alle User ab. Zu Beginn sollten keine User in der Datenbank sein. 
 ###
 GET http://localhost:8080/publicUsers
