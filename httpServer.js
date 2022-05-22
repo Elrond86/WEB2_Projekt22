@@ -22,7 +22,13 @@ app.use("/authenticate", AuthenticationRoutes)
 database.initDB(function (err, db) {
   if (db) {
     console.log("Succesfully connected to Database.")
- 
+    let user = UserService.findAdmin()
+    console.log(user)
+    user => {
+      if(user) return
+      else UserService.makeAdmin()
+    }
+
   }
   else {
     console.log("Connection to Database failed")
@@ -30,8 +36,8 @@ database.initDB(function (err, db) {
 })
 
 /* Looking for an Administrator */
-let user = UserService.findAdmin()
-console.log(user)
+
+
 
 /* Error Handler */
 
