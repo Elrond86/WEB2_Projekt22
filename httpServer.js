@@ -1,7 +1,6 @@
 const express = require("express")
 const bodyParser = require("body-parser")
 const database = require("./database/db")
-//const findAdmin = require("./endpoints/test/SecureAdminExistence")
 const testRoutes = require("./endpoints/test/TestRoutes")
 const PublicUserRoutes = require("./endpoints/publicUser/PublicUserRoute")
 const UserRoutes = require("./endpoints/user/UserRoute")
@@ -30,9 +29,7 @@ database.initDB(function (err, db) {
 })
 
 /* Looking for an Administrator */
-//database.collection.find(({ isAdministrator: true }))
-//findAdmin.processAdminExistence()
-//UserService.findOrMakeAdmin();
+
 
 
 /* Error Handler */

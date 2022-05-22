@@ -11,7 +11,7 @@ router.post("/login", function (req, res, next) {
         if (token) {
 
             res.header("Authorization", "Bearer" + token)
-            
+
             if (user) {
                 const { id, userID, userName, ...partialObject } = user
                 const subset = { id, userID, userName } /* ich hole mir aus user nur id, userID und Namen!!!!!  *01*  */
@@ -31,6 +31,3 @@ router.post("/login", function (req, res, next) {
 })
 
 module.exports = router;
-
-
-/* *01*  es wird nich das gesammte SUerobjekt zurück geschickt, nur subset. Es soll nämlich NICHT das gehashte passwort mit rausgegeben wird...will man nicht! */
