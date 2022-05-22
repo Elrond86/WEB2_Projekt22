@@ -1,0 +1,32 @@
+{
+    "favorites.resources": [
+        {
+            "filePath": "config\\default.json",
+            "group": "Default"
+        },
+        {
+            "filePath": "test\\ms1-tests.http",
+            "group": "Default"
+        },
+        {
+            "filePath": "test\\ms2-tests.http",
+            "group": "Default"
+        },
+        {
+            "filePath": "httpServer.js",
+            "group": "Default"
+        },
+        {
+            "filePath": "endpoints\\user",
+            "group": "Default"
+        },
+        {
+            "filePath": "endpoints\\authentication",
+            "group": "Default"
+        },
+        {
+            "filePath": "endpoints\\publicUser",
+            "group": "Default"
+        }
+    ]
+}

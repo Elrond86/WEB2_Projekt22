@@ -5,8 +5,9 @@ const database = require("./database/db")
 const testRoutes = require("./endpoints/test/TestRoutes")
 const PublicUserRoutes = require("./endpoints/publicUser/PublicUserRoute")
 const UserRoutes = require("./endpoints/user/UserRoute")
+const UserService = require("./endpoints/user/UserService")
 const AuthenticationRoutes = require("./endpoints/authentication/AuthenticationRoute")
-//const { db } = require("./endpoints/user/UserModel")
+const { db } = require("./endpoints/user/UserModel")
 
 const app = express()
 app.use(bodyParser.json())
@@ -29,8 +30,9 @@ database.initDB(function (err, db) {
 })
 
 /* Looking for an Administrator */
-//database.users.findOne(({ isAdministrator: true }))
+//database.collection.find(({ isAdministrator: true }))
 //findAdmin.processAdminExistence()
+//UserService.findOrMakeAdmin();
 
 
 /* Error Handler */

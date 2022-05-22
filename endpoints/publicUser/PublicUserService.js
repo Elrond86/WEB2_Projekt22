@@ -1,44 +1,11 @@
-const User = require("../user/Usermodel")
+const User = require("../user/UserModel")
 var config = require("config")
 var logger = require("../../config/winston")
 const { trusted } = require("mongoose/lib/helpers/query/trusted")
 
-//get all users
-function getUsers(callback) {
-    User.find(function (err, users) {
-        if (err) {
-            logger.debug("Error while searching; " + err)
-            return callback(err, null)
-        }
-        else {
-            logger.debug("All fine")
-            return callback(null, users)
-        }
-    })
-}
-
-//find User by userID
-function findUserBy(searchUserID, callback) {
-    logger.debug(`UserService: searching for user with userID '${searchUserID}'...`)
-    const query = User.findOne({ userID: searchUserID })
-    query.exec(function (err, user) {
-        if (err) {
-            logger.error(err.message)
-            return callback(err.message)
-        }
-        if (user) {
-            logger.debug(`Found userID: ${searchUserID}`)
-            callback(null, user)
-        }
-        else {
-            logger.error("Did not find user for userID: " + searchUserID)
-            callback(`Did not find user with userID: ${searchUserID}`, user)
-        };
-    })
-}
 
 // create User
-function createUser(userData, callback) {
+/* function createUser(userData, callback) {
     if (!userData.userID){
         return callback("You can not create a user without a userID", null)
     }
@@ -61,7 +28,57 @@ function createUser(userData, callback) {
     })
     }
     
+} */
+async function createUser(userData) {
+    return new Promise((resolve, reject) => {
+        if (!userData.userID){
+             reject("You can not create a user without a userID")
+        }
+        else{
+            logger.debug(`creating new User '${userData.userName}'`)
+        let user = new User()
+        Object.assign(user, userData)
+        logger.debug(`saving new User '${JSON.stringify(user)}'`) 
+        user.save(function (err, user) {
+            if (err) {
+                logger.error("Could not create user account: " + err.message)
+                //console.log(err.errors)
+                if (err.code == 1100) {
+                     reject("User already exists!")
+                }
+                 reject("Could not create user account")
+            }
+            else {
+                 resolve(user)
+            }
+        })
+        }
+    })
 }
+
+// ensure admin is in db
+
+
+//find User by userID
+function findUserBy(searchUserID, callback) {
+    logger.debug(`UserService: searching for user with userID '${searchUserID}'...`)
+    const query = User.findOne({ userID: searchUserID })
+    query.exec(function (err, user) {
+        if (err) {
+            logger.error(err.message)
+            return callback(err.message)
+        }
+        if (user) {
+            logger.debug(`Found userID: ${searchUserID}`)
+            callback(null, user)
+        }
+        else {
+            logger.error("Did not find user for userID: " + searchUserID)
+            callback(`Did not find user with userID: ${searchUserID}`, user)
+        };
+    })
+}
+
 
 // update User
 function updateUserById(userID, body, callback) {
@@ -138,6 +155,20 @@ function changeAdministratorStatus(userID, isAdministrator, callback) {
     }
 }
 
+//get all users
+function getUsers(callback) {
+    User.find(function (err, users) {
+        if (err) {
+            logger.debug("Error while searching; " + err)
+            return callback(err, null)
+        }
+        else {
+            logger.debug("All fine")
+            return callback(null, users)
+        }
+    })
+}
+
 module.exports = {
     getUsers,
     findUserBy,
@@ -147,4 +178,5 @@ module.exports = {
     deleteAllUsers,
     changeAdministratorStatus,
     updateUserById,
+    //findOrMakeAdmin,
 }

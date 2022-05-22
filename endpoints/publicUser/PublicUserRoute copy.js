@@ -1,7 +1,7 @@
-var express = require("express")
-var router = express.Router()
-var config = require("config")
-var logger = require("../../config/winston")
+const express = require("express")
+const router = express.Router()
+const config = require("config")
+const logger = require("../../config/winston")
 const PublicUserService = require("./PublicUserService")
 
 /* get all users */
@@ -34,7 +34,7 @@ router.get('/:userID', function (req, res, next) {
 })
 
 /* create one user */
-/* router.post("/",
+router.post("/",
   function (req, res, next) {
     state = `Processing UserData... for User with userID '${req.body.userID}'...`
     logger.debug(state)
@@ -46,18 +46,6 @@ router.get('/:userID', function (req, res, next) {
         res.send(err);
       }
     })
-  }) */
-  router.post("/",
-  async function (req, res, next) {
-    try {
-      state = `Processing UserData... for User with userID '${req.body.userID}'...`
-      logger.debug(state)
-      console.log(state)
-      const res = await PublicUserService.createUser(req.body)
-      res.send(`User ${req.body.userID} sucessfully created \r\r with Json-Body: \r ` + message)      
-    } catch(err) {
-      res.send(err)
-    }
   })
 
 /* update user */

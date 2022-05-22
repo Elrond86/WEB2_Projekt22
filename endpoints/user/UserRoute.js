@@ -34,7 +34,7 @@ router.get('/:userID', function (req, res, next) {
 })
 
 /* create one user */
-router.post("/",
+/* router.post("/",
   function (req, res, next) {
     state = `Processing UserData... for User with userID '${req.body.userID}'...`
     logger.debug(state)
@@ -45,6 +45,17 @@ router.post("/",
       } else {
         res.send(err);
       }
+    })
+  }) */
+  router.post("/",
+  function (req, res, next) {
+    state = `Processing UserData... for User with userID '${req.body.userID}'...`
+    logger.debug(state)
+    console.log(state)
+    userService.createUser(req.body).then((message) => {
+      res.send(`User ${req.body.userID} sucessfully created \r\r with Json-Body: \r ` + user)
+    }).catch((err) => {
+      res.send(err)
     })
   })
 

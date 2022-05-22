@@ -1,8 +1,9 @@
 function findAdminUser() {
     return new Promise((resolve, reject) => {
         console.log("Looking for an Administrator")
-        User.findOne({ isAdministrator: true })
-        if (user) {
+        let defaultAdmin = User.findOne({ isAdministrator: true })
+        logger.debug(defaultAdmin)
+        if (defaultAdmin) {
             resolve("Admin found")
         } else {
             reject("Could not find any admin-user")
@@ -30,7 +31,7 @@ function makeDefaultAdmin() {
     })
 }
 
-async function processAdminExistence(){
+async function findOrMakeAdmin(){
     try {
         const response = await findAdminUser()
         console.log(response)
@@ -38,6 +39,19 @@ async function processAdminExistence(){
         console.log(err)
     }    
 }
+
+
+
+
+/* (async function ensureAdminExistence(){
+    try {
+        const response = await User.findOne(({ isAdministrator: true }))
+    } catch (err) {
+        console.log(err)
+    }
+})();
+ */
+
 
 
 module.exports = processAdminExistence
