@@ -144,7 +144,7 @@ function getUsers(callback) {
 // ensure admin is in db
 async function findAdmin() {
     try {
-        const user = await User.findOne({name: "admin"})
+        const user = await User.findOne({isAdministrator: true})
         console.log(user)
     } catch (err) {
         console.log(err.message)
