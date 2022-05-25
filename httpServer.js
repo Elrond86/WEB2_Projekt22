@@ -31,36 +31,19 @@ database.initDB(function (err, db) {
 
 /* Looking for an Administrator */
 
-async function mustHaveAdmin() {
+(async function mustHaveAdmin() {
+  console.log("Bin in httpServer. Versuche nun Admin zu finden..")  
   try {
-    return UserService.findAdmin({});
+    user = await UserService.findAdmin({});
+    console.log("Bin in httpServer.  user: " + user)
+    if( user == null){
+      UserService.makeAdmin()
+    }    
   }
   catch (err) {
-    console.error(error);
+    console.error(err);
   }
-};
-
-(async function () {
-  const results = await mustHaveAdmin();
-  console.log(results);
 })();
-
-
-/** 
- console.log("findAdmin-Promise result is: " + result)
-  console.log("user: " + user)
-  user => {
-    if(user != null || user != undefined) return
-    else {
-      console.log("kein admin")
-      //UserService.makeAdmin()
-    }
-  }
-}) */
-
-
-
-
 
 
 /* Error Handler */
