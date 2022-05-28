@@ -1,3 +1,5 @@
+"use strict"
+
 const express = require("express")
 const bodyParser = require("body-parser")
 const database = require("./database/db")
@@ -6,7 +8,10 @@ const PublicUserRoutes = require("./endpoints/publicUser/PublicUserRoute")
 const UserRoutes = require("./endpoints/user/UserRoute")
 const UserService = require("./endpoints/user/UserService")
 const AuthenticationRoutes = require("./endpoints/authentication/AuthenticationRoute")
+const logger = require("./config/winston")
+
 const { db } = require("./endpoints/user/UserModel")
+const { loggers } = require("winston")
 
 const app = express()
 app.use(bodyParser.json())
@@ -38,7 +43,7 @@ database.initDB(function (err, db) {
 
 (async function mustHaveAdmin() {
   try {
-    user = await UserService.findAdmin({});
+    const user = await UserService.findAdmin({});
     if (user == null) {
       UserService.makeAdmin();
       console.log("Sucess.....Please change the default-password!")

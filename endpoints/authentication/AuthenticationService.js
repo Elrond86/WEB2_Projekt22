@@ -1,3 +1,5 @@
+"use strict"
+
 const UserService = require("../user/UserService")
 var jwt = require("jsonwebtoken")
 var config = require("config")
