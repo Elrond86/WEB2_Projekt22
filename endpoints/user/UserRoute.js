@@ -2,11 +2,11 @@ var express = require("express")
 var router = express.Router()
 var config = require("config")
 var logger = require("../../config/winston")
-var userService = require("./UserService")
+var UserService = require("./UserService")
 
 /* get all users */
 router.get("/", function (req, res, next) {
-  userService.getUsers(function (err, user) {
+  UserService.getUsers(function (err, user) {
     if (user) {
       res.send(Object.values(user))
     }
@@ -20,7 +20,7 @@ router.get("/", function (req, res, next) {
 
 /* get one user */
 router.get('/:userID', function (req, res, next) {
-  userService.findUserBy(req.params.userID,
+  UserService.findUserBy(req.params.userID,
     function (err, user) {
       if (user) {
         res.send(user)
@@ -39,7 +39,7 @@ router.post("/",
     state = `Processing UserData... for User with userID '${req.body.userID}'...`
     logger.debug(state)
     console.log(state)
-    userService.createUser(req.body).then((message) => {
+    UserService.createUser(req.body).then((message) => {
       res.send(`User ${req.body.userID} sucessfully created \r\r with Json-Body: \r ` + user)
     }).catch((err) => {
       res.send(err)
@@ -48,7 +48,7 @@ router.post("/",
 
 /* update user */
 router.put('/:userID', function (req, res, next) {
-  userService.updateUserById(req.params.userID, req.body, function (msg, user, code) {
+  UserService.updateUserById(req.params.userID, req.body, function (msg, user, code) {
     if (user) {
       res.status(code).json(user)
     } else {
@@ -61,7 +61,7 @@ router.put('/:userID', function (req, res, next) {
 
 /* delete user by ID */
 router.delete('/:userID', function (req, res, next) {
-  userService.deleteUserById(req.params.userID, function (msg, result, code) {
+  UserService.deleteUserById(req.params.userID, function (msg, result, code) {
     if (result) {
       res.send(`User ${req.params.userID} succesfully deleted.`)
     } else {
@@ -74,7 +74,7 @@ router.delete('/:userID', function (req, res, next) {
 
 /* delete all users */
 router.delete('/', function (req, res, next) {
-  userService.deleteAllUsers(function (err, result) {
+  UserService.deleteAllUsers(function (err, result) {
     if (result) {
       res.status(200).json({
         Message: `All users succesfully deleted`
@@ -89,7 +89,7 @@ router.delete('/', function (req, res, next) {
 
 /* update administrator status */
 router.post('/:userID/:isAdministrator', function (req, res, next) {
-  userService.changeAdministratorStatus(req.params.userID, req.params.isAdministrator, function (msg, user, code) {
+  UserService.changeAdministratorStatus(req.params.userID, req.params.isAdministrator, function (msg, user, code) {
     if (user) {
       res.status(code).json(user)
     } else {

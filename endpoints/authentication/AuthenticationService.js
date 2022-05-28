@@ -1,4 +1,4 @@
-var userService = require("../user/UserService")
+const UserService = require("../user/UserService")
 var jwt = require("jsonwebtoken")
 var config = require("config")
 var logger = require("../../config/winston")
@@ -9,11 +9,11 @@ function createSessionToken(props, callback) {
 
     if (!props) {
         logger.debug("Error: have no json body")
-        callback("JSON-Body missing", null, null)
+        callback("JSON-Body missing", null, null, 400)  //man könnte null, null 400 auvh weglassen, dann macht er von selber null null
         return
     }
 
-    userService.findUserBy(props.userID, function (error, user) {
+    UserService.findUserBy(props.userID, function (error, user) {
         if (user) {
             logger.debug("Found user, checking password...")
 

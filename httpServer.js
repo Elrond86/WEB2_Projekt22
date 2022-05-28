@@ -18,11 +18,16 @@ app.use("/", testRoutes)
 app.use("/publicUsers", PublicUserRoutes)
 app.use("/users", UserRoutes)
 app.use("/authenticate", AuthenticationRoutes)
-
+/**
+ * app.use(anyfunction) 
+ *  app.use expects a function that takes request, response and next (req, res, next) and executes it. 
+ * Das wird aber NUR ausgeführt, wenn die controller actions davor ein next haben!!
+ * next() geht zur nächsten function und kehrt letztlich wieder zum next() zurück (falls es mitten in der function ist)
+ *  und führt dann die function zuende aus
+ */
 database.initDB(function (err, db) {
   if (db) {
     console.log("Succesfully connected to Database.")
-
   }
   else {
     console.log("Connection to Database failed")
@@ -32,15 +37,13 @@ database.initDB(function (err, db) {
 /* Looking for an Administrator */
 
 (async function mustHaveAdmin() {
-  console.log("Bin in httpServer. Versuche nun Admin zu finden..")  
   try {
     user = await UserService.findAdmin({});
-    console.log("Bin in httpServer.  user: " + user)
-    if( user == null){
-      UserService.makeAdmin()
-    }    
-  }
-  catch (err) {
+    if (user == null) {
+      UserService.makeAdmin();
+      console.log("Sucess.....Please change the default-password!")
+    }
+  } catch (err) {
     console.error(err);
   }
 })();
@@ -61,5 +64,5 @@ app.use(function (req, res, next) {
 
 const port = 8080
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
+  console.log(`Web2-Project listening at http://localhost:${port}`)
 })

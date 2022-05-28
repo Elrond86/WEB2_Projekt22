@@ -145,7 +145,6 @@ function getUsers(callback) {
 async function findAdmin() {
     try {
         const user = await User.findOne({isAdministrator: true})
-        console.log("Bin in UserService.  user: " + user)
         return user
     } catch (err) {
         console.log(err.message)
@@ -153,7 +152,7 @@ async function findAdmin() {
 }
 
 async function makeAdmin() {
-    console.log("Creating new default admin user...")
+    console.log("Could not find Administrator. Creating new default admin user...")
     try {
         const adminUser = await createUser({
             userID: "admin",

@@ -8,6 +8,7 @@ const PublicUserService = require("./PublicUserService")
 router.get("/", function (req, res, next) {
   PublicUserService.getUsers(function (err, user) {
     if (user) {
+      console.log("bin in PublicUserRoute -> router.get")
       res.send(Object.values(user))
     }
     else {

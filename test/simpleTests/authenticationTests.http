@@ -1,5 +1,5 @@
 ### authentication über den body
-POST http://localhost:8080/authenticate/login
+POST http://localhost:8080/authenticate/
 Content-Type: application/json
 
 {
@@ -9,6 +9,6 @@ Content-Type: application/json
 
 
 ### basic authentication
-POST http://localhost:8080/authenticate/loginBasic
+GET http://localhost:8080/authenticate/
 Authorization: Basic dGF0aToxMjM=
 
