@@ -8,7 +8,7 @@ const { trusted } = require("mongoose/lib/helpers/query/trusted")
 async function createUser(userData) {
     return new Promise((resolve, reject) => {
         if (!userData.userID) {
-            return reject("You can not create a user without a userID", null)
+            return reject("You can not create a user without a userID", null, 400)
         }
         else {
             logger.debug(`creating new User '${userData.userName}'`)
@@ -24,7 +24,8 @@ async function createUser(userData) {
                     return reject("Could not create user account", null)
                 }
                 else {
-                    return resolve(null, user)
+                    logger.debug("es sollte jetzt n statuscode 201 erzeugt")
+                    return resolve([null, user, 201])
                 }
             })
         }

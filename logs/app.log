@@ -464,3 +464,7 @@
 {"level":"error","message":"(endpoints\\authentication\\AuthenticationService.js:38) null"}
 {"level":"error","message":"(endpoints\\authentication\\AuthenticationService.js:37) Password is invalid"}
 {"level":"error","message":"(endpoints\\authentication\\AuthenticationService.js:38) null"}
+{"level":"error","message":"(endpoints\\user\\UserService.js:20) Could not create user account: MongoServerError: E11000 duplicate key error collection: TestDB.users index: userID_1 dup key: { userID: \"admin\" }"}
+{"level":"error","message":"(endpoints\\user\\UserService.js:20) Could not create user account: MongoServerError: E11000 duplicate key error collection: TestDB.users index: userID_1 dup key: { userID: \"admin\" }"}
+{"level":"error","message":"(endpoints\\user\\UserService.js:20) Could not create user account: MongoServerError: E11000 duplicate key error collection: TestDB.users index: userID_1 dup key: { userID: \"admin\" }"}
+{"level":"error","message":"(endpoints\\user\\UserService.js:20) Could not create user account: MongoServerError: E11000 duplicate key error collection: TestDB.users index: userID_1 dup key: { userID: \"admin\" }"}
