@@ -20,7 +20,7 @@ function initDB(callback) {
 
         _db.on("error", console.error.bind(console, "connection error:"));
         _db.once("open", function () {
-            console.log("Connected to database " + connectionString + " in DB.js: " + _db);
+            console.log("Connected to database " + connectionString + " in DB.js: " + _db.name + " @ " + _db.host + ":" + _db.port);
             callback(null, _db);
         });
     }
