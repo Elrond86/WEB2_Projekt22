@@ -14,12 +14,20 @@ function createSessionToken(props, callback) {
         callback("JSON-Body missing", null, null, 400)  //man könnte null, null 400 auvh weglassen, dann macht er von selber null null
         return
     }
+    logger.debug("props:" + props)
+    const base64Credentials = props.split(' ')[1]
+    logger.debug("base64Credentials: " + base64Credentials)
+    const credentials = Buffer.from(base64Credentials, 'base64').toString('ascii')
+    const [username, password] = credentials.split(':')
+    logger.debug("username: " + username)
+    logger.debug("password: " + password)
 
-    UserService.findUserBy(props.userID, function (error, user) {
+    UserService.findUserBy(username, function (error, user) {
+        logger.debug(`user: ${user}`)
         if (user) {
             logger.debug("Found user, checking password...")
 
-            user.comparePassword(props.password, function (err, isMatch) {
+            user.comparePassword(password, function (err, isMatch) {
 
                 if (err) {
                     logger.debug("err: " + err)

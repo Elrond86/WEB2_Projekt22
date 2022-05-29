@@ -38,7 +38,7 @@ router.get('/:userID', function (req, res, next) {
 /* create one user */
 router.post("/",
   function (req, res, next) {
-    state = `Processing UserData... for User with userID '${req.body.userID}'...`
+    let state = `Processing UserData... for User with userID '${req.body.userID}'...`
     logger.debug(state)
     console.log(state)
     UserService.createUser(req.body).then((message) => {
