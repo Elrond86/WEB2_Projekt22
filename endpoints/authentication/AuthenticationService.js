@@ -50,7 +50,7 @@ function createSessionToken(props, callback) {
                     logger.debug("Token created: " + token)
                     console.log("Token created: " + token)
 
-                    callback(null, token, user)
+                    callback(null, token, user, 201)
                 }
             }
             )

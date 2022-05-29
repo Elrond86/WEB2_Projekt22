@@ -14,12 +14,13 @@ router.get('/', (req, res, next) => {
         if (token) {
 
             res.header("Authorization", "Bearer " + token)
+            res.status(statuscode)
 
             if (user) {
                 const { id, userID, userName, ...partialObject } = user
                 const subset = { id, userID, userName } /* ich hole mir aus user nur id, userID und Namen!!!!!  *01*  */
                 console.log(JSON.stringify(subset))  /* ...dann schreib ich nur diese Userdaten hier in den Body und geb es... */
-                res.send(subset) /* ...an die response zurück  */
+                res.send(`Token created for user with body: \n ${JSON.stringify(subset)}`) /* ...an die response zurück  */
             }
             else {
                 console.log("User is null, even though a token has been created. Error: " + err)
@@ -28,8 +29,7 @@ router.get('/', (req, res, next) => {
         }
         else {
             console.log("Token has not been created, Error: " + err)
-            res.status(statuscode)
-            res.send("Could not create token")
+            res.status(statuscode).send("Could not create token")
         }
     })
 })
