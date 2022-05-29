@@ -11,7 +11,7 @@ function createSessionToken(props, callback) {
 
     if (!props) {
         logger.debug("Error: have no json body")
-        callback("JSON-Body missing", null, null, 400)  //man könnte null, null 400 auvh weglassen, dann macht er von selber null null
+        callback("JSON-Body missing", null, null, 400)  
         return
     }
     logger.debug("props:" + props)
@@ -31,11 +31,12 @@ function createSessionToken(props, callback) {
 
                 if (err) {
                     logger.debug("err: " + err)
-                    callback(err, null);
+                    callback(err, null, null);
                 }
                 else if (!isMatch) {
                     logger.error("Password is invalid")
-                    callback(err, null);
+                    logger.error(err)
+                    callback(err, null, null, 401);
                 }
                 else {
                     logger.debug("Password is correct. Creating token...")

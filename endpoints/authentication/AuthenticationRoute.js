@@ -28,6 +28,7 @@ router.get('/', (req, res, next) => {
         }
         else {
             console.log("Token has not been created, Error: " + err)
+            res.status(statuscode)
             res.send("Could not create token")
         }
     })
