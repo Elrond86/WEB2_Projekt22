@@ -45,7 +45,12 @@ function createSessionToken(props, callback) {
                     var expirationTime = config.get("session.timeout")
                     var expiresAT = issueAt + (expirationTime * 1000)
                     var privateKey = config.get("session.tokenKey")
-                    let token = jwt.sign({ "user": user.userID }, privateKey, { expiresIn: expiresAT, algorithm: "HS256" })
+                    let token = jwt.sign({ 
+                        "userID" : user.userID,
+                        "userName" : user.userName,
+                        "isAdministrator" : user.isAdministrator}, 
+                        privateKey, 
+                        { expiresIn: expiresAT, algorithm: "HS256" })
 
                     logger.debug("Token created: " + token)
                     console.log("Token created: " + token)
