@@ -10,7 +10,7 @@ router.get('/', (req, res, next) => {
     logger.debug("Initiating Token-Generation...")
     
     AuthenticationService.createSessionToken(req.headers.authorization, function (err, token, user, statuscode) {
-         
+        logger.debug(user) 
         if (token) {
 
             res.header("Authorization", "Bearer " + token)
@@ -28,8 +28,9 @@ router.get('/', (req, res, next) => {
             }
         }
         else {
+            logger.error(err)
             console.log("Token has not been created, Error: " + err)
-            res.status(statuscode).send("Could not create token")
+            res.status(statuscode).send(`Could not create token for user ${user}: ${err}`)
         }
     })
 })

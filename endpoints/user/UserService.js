@@ -2,11 +2,12 @@ const User = require("./UserModel")
 var config = require("config")
 var logger = require("../../config/winston")
 const { trusted } = require("mongoose/lib/helpers/query/trusted")
+const req = require("express/lib/request")
 
 
 // create User
 async function createUser(userData) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {   
         if (!userData.userID) {
             return reject("You can not create a user without a userID", null, 400)
         }
@@ -168,6 +169,13 @@ async function makeAdmin() {
     }
 };
 
+
+function whatYouGot(req, res, next) {
+    console.log("I'm in whatYouGot. req.params: ")
+    console.log(req.params)
+    next()
+}
+
 module.exports = {
     getUsers,
     findUserBy,
@@ -179,4 +187,5 @@ module.exports = {
     updateUserById,
     findAdmin,
     makeAdmin,
+    whatYouGot,
 }

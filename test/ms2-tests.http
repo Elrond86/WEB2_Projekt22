@@ -1,3 +1,7 @@
+// Lösche alle User
+###
+DELETE  http://localhost:8080/publicUsers/
+
 // Re-test Meilenstein 1, es sollte der Standard-Admin in der Datenbank sein
 ###
 http://localhost:8080/publicUsers
@@ -19,9 +23,16 @@ Authorization: Basic admin:1234
 ### Auflisten aller Nutzer ohne Token
 http://localhost:8080/users
 
+
+
+
 ### Auflisten aller Nutzer mit Token von admin
 http://localhost:8080/users
 Authorization: {{adminToken}}
+
+
+
+
 
 ### Lege neuen user manfred an
 POST http://localhost:8080/users

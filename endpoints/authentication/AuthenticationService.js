@@ -4,6 +4,8 @@ const UserService = require("../user/UserService")
 var jwt = require("jsonwebtoken")
 var config = require("config")
 var logger = require("../../config/winston")
+const { removeListener } = require("../user/UserModel")
+const { resolve } = require("path")
 
 
 function createSessionToken(props, callback) {
@@ -11,7 +13,7 @@ function createSessionToken(props, callback) {
 
     if (!props) {
         logger.debug("Error: have no json body")
-        callback("JSON-Body missing", null, null, 400)  
+        callback("JSON-Body missing", null, null, 400)
         return
     }
     logger.debug("props:" + props)
@@ -34,9 +36,10 @@ function createSessionToken(props, callback) {
                     callback(err, null, null);
                 }
                 else if (!isMatch) {
-                    logger.error("Password is invalid")
+                    let err = "Password is invalid"
                     logger.error(err)
-                    callback(err, null, null, 401);
+                    logger.debug(user.userID)
+                    callback(err, null, user.userID, 401);
                 }
                 else {
                     logger.debug("Password is correct. Creating token...")
@@ -45,11 +48,12 @@ function createSessionToken(props, callback) {
                     var expirationTime = config.get("session.timeout")
                     var expiresAT = issueAt + (expirationTime * 1000)
                     var privateKey = config.get("session.tokenKey")
-                    let token = jwt.sign({ 
-                        "userID" : user.userID,
-                        "userName" : user.userName,
-                        "isAdministrator" : user.isAdministrator}, 
-                        privateKey, 
+                    let token = jwt.sign({
+                        "userID": user.userID,
+                        "userName": user.userName,
+                        "isAdministrator": user.isAdministrator
+                    },
+                        privateKey,
                         { expiresIn: expiresAT, algorithm: "HS256" })
 
                     logger.debug("Token created: " + token)
@@ -67,6 +71,37 @@ function createSessionToken(props, callback) {
     })
 }
 
+function isAuthenticated(req, res, next) {
+    if (typeof req.headers.authorization !== "undefined") {
+        let token = req.headers.authorization.split(" ")[1];
+        var privateKey = config.get('session.tokenKey');
+        jwt.verify(token, privateKey, { algorithm: "HS256" }, (err, user) => {
+            if (err) {
+                res.status(500).json({ error: "Not Authenticated" });
+                return;
+            }
+            req.user = user;
+            return [req.user, next()];
+        });
+    } else {
+        res.status(500).json({ error: "Not Authenticated" });
+        return;
+    }
+}
+
+function isAdmin(req, res, next) {
+    const admin = req.user.isAdministrator
+    console.log(`${req.user.userID}.isAdministrator: ` + admin)
+    if(admin){
+        next();
+    } else {
+        res.status(403).json({ error: `User ${req.user.userID} is not authorized for this action.` });
+    }
+  }
+
+
 module.exports = {
-    createSessionToken
+    createSessionToken,
+    isAuthenticated,
+    isAdmin,
 }
