@@ -169,13 +169,6 @@ async function makeAdmin() {
     }
 };
 
-
-function whatYouGot(req, res, next) {
-    console.log("I'm in whatYouGot. req.params: ")
-    console.log(req.params)
-    next()
-}
-
 module.exports = {
     getUsers,
     findUserBy,
@@ -187,5 +180,4 @@ module.exports = {
     updateUserById,
     findAdmin,
     makeAdmin,
-    whatYouGot,
 }
