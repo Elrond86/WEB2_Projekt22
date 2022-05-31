@@ -2,6 +2,7 @@
 ###
 DELETE  http://localhost:8080/publicUsers/
 
+
 // Re-test Meilenstein 1, es sollte der Standard-Admin in der Datenbank sein
 ###
 http://localhost:8080/publicUsers
@@ -13,6 +14,7 @@ http://localhost:8080/publicUsers
 GET http://localhost:8080/authenticate
 Authorization: Basic YWRtaW46MTIz
 
+
 // Login mit Basic Authentication als admin mit falschen Credentials
 ###
 GET http://localhost:8080/authenticate
@@ -20,18 +22,14 @@ Authorization: Basic admin:1234
 
 @adminToken = {{loginAdminCorrect.response.headers.Authorization}}
 
+
 ### Auflisten aller Nutzer ohne Token
 http://localhost:8080/users
-
-
 
 
 ### Auflisten aller Nutzer mit Token von admin
 http://localhost:8080/users
 Authorization: {{adminToken}}
-
-
-
 
 
 ### Lege neuen user manfred an
@@ -45,9 +43,11 @@ Content-Type: application/json
     "password": "asdf"
 }
 
+
 ### Abrufen des angelegten Users mit dem Admin-Token
 GET http://localhost:8080/users/manfred
 Authorization: {{adminToken}}
+
 
 // Login mit Basic Authentication als manfred mit korrekten Credentials admin:123
 ###
@@ -57,9 +57,19 @@ Authorization: Basic manfred:asdf
 
 @manfredToken = {{loginManfredCorrect.response.headers.Authorization}}
 
+
 ### Auflisten aller Nutzer mit Token von manfred
 GET http://localhost:8080/users
 Authorization: {{manfredToken}}
+
+
+
+
+
+// ---------- FORUMTHREAD SHIT  ---------- //
+
+
+
 
 ### Auflisten aller Foren ohne Token
 GET http://localhost:8080/forumThreads
@@ -76,8 +86,10 @@ Content-Type: application/json
     "description": "Das ist ein erstes Forum, das ich im Rahmen der Tests angelegt habe"
 }
 
+
 ###
 @forumThreadID = {{createForumRequest.response.body._id}}
+
 
 ### Auflisten aller Foren ohne Token, nun sollte es ein Forum geben
 http://localhost:8080/forumThreads

@@ -2,15 +2,9 @@
 
 const express = require("express")
 const router = express.Router()
-const config = require("config")
 const logger = require("../../config/winston")
 const UserService = require("./UserService")
-const AuthService = require("../authentication/AuthenticationService")
-const { resolve } = require("path")
-const res = require("express/lib/response")
-
-const isAuth = AuthService.isAuthenticated
-const isAdmin = AuthService.isAdmin
+const {isAuth, isAdmin} = require("../authentication/AuthenticationService")
 
 /* get all users */
 router.get("/", isAuth, isAdmin, (req, res, next) => {
@@ -23,8 +17,7 @@ router.get("/", isAuth, isAdmin, (req, res, next) => {
     }
   })
   logger.debug("Everything working fine in user route")
-}
-)
+});
 
 /* get one user */
 router.get('/:userID', isAuth, isAdmin, (req, res, next) => {
@@ -39,8 +32,7 @@ router.get('/:userID', isAuth, isAdmin, (req, res, next) => {
         res.send("Did not find any User with this userID" + [])
       }
     })
-}
-);
+});
 
 
 /* create one user */
@@ -52,9 +44,9 @@ router.post("/", isAuth, isAdmin, (req, res, next) => {
     console.log(`User ${req.body.userID} sucessfully created`)
     res.status(message[2]).send(`User ${req.body.userID} sucessfully created \r\r with Json-Body: \r ` + message[1])
   }).catch((err) => {
-    res.send(err)
+    res.status(err[2]).send(err[1])
   })
-})
+});
 
 /* update user */
 router.put('/:userID', isAuth, isAdmin, (req, res, next) => {

@@ -8,10 +8,8 @@ const PublicUserRoutes = require("./endpoints/publicUser/PublicUserRoute")
 const UserRoutes = require("./endpoints/user/UserRoute")
 const UserService = require("./endpoints/user/UserService")
 const AuthenticationRoutes = require("./endpoints/authentication/AuthenticationRoute")
+const ForumThreads = require("./endpoints/forumThread/ForumThreadRoute")
 const logger = require("./config/winston")
-
-const { db } = require("./endpoints/user/UserModel")
-const { loggers } = require("winston")
 
 const app = express()
 app.use(bodyParser.json())
@@ -23,6 +21,7 @@ app.use("/", testRoutes)
 app.use("/publicUsers", PublicUserRoutes)
 app.use("/users", UserRoutes)
 app.use("/authenticate", AuthenticationRoutes)
+app.use("/forumThreads", ForumThreads)
 /**
  * app.use(anyfunction) 
  *  app.use expects a function that takes request, response and next (req, res, next) and executes it. 

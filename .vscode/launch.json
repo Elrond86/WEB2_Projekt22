@@ -1,23 +1,15 @@
 {
     "version": "0.2.0",
     "configurations": [
-        
 
         {
             "type": "pwa-node",
             "request": "launch",
-            "name": "Launch Program",
+            "name": "Attach by Process ID",
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}\\endpoints\\authentication\\AuthenticationRoute.js"
+            "program": "${workspaceFolder}"
         },
-        {
-            "type": "node-terminal",
-            "name": "Run Script: test",
-            "request": "launch",
-            "command": "npm run test",
-            "cwd": "${workspaceFolder}"
-        }
     ]
 }

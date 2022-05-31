@@ -27,6 +27,14 @@
         {
             "filePath": "endpoints\\publicUser",
             "group": "Default"
+        },
+        {
+            "filePath": "endpoints\\forumThread",
+            "group": "Default"
+        },
+        {
+            "filePath": "config\\winston.js",
+            "group": "Default"
         }
     ]
 }

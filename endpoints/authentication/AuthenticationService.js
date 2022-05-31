@@ -1,12 +1,9 @@
 "use strict"
 
-const UserService = require("../user/UserService")
+const {findUserBy} = require("../user/UserService")
 var jwt = require("jsonwebtoken")
 var config = require("config")
 var logger = require("../../config/winston")
-const { removeListener } = require("../user/UserModel")
-const { resolve } = require("path")
-
 
 function createSessionToken(props, callback) {
     logger.debug("AuthenticationService: create Token");
@@ -24,7 +21,7 @@ function createSessionToken(props, callback) {
     logger.debug("username: " + username)
     logger.debug("password: " + password)
 
-    UserService.findUserBy(username, function (error, user) {
+    findUserBy(username, function (error, user) {
         logger.debug(`user: ${user}`)
         if (user) {
             logger.debug("Found user, checking password...")
@@ -71,7 +68,7 @@ function createSessionToken(props, callback) {
     })
 }
 
-function isAuthenticated(req, res, next) {
+function isAuth(req, res, next) {
     if (typeof req.headers.authorization !== "undefined") {
         let token = req.headers.authorization.split(" ")[1];
         var privateKey = config.get('session.tokenKey');
@@ -102,6 +99,6 @@ function isAdmin(req, res, next) {
 
 module.exports = {
     createSessionToken,
-    isAuthenticated,
+    isAuth,
     isAdmin,
 }

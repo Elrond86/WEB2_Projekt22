@@ -6,30 +6,28 @@ const req = require("express/lib/request")
 
 
 // create User
-async function createUser(userData) {
-    return new Promise((resolve, reject) => {   
-        if (!userData.userID) {
-            return reject("You can not create a user without a userID", null, 400)
-        }
-        else {
-            logger.debug(`creating new User '${userData.userName}'`)
-            let user = new User()
-            Object.assign(user, userData)
+function createUser(userData) {
+    if (!userData.userID) {
+        return reject("You can not create a user without a userID", null, 400)
+    }
+    return new Promise((resolve, reject) => {
+        logger.debug(`creating new User '${userData.userName}'`)
+        let user = new User()
+        Object.assign(user, userData)
 
-            user.save(function (err, user) {
-                if (err) {
-                    logger.error("Could not create user account: " + err)
-                    if (err.code = 1100) {
-                        return reject("User already exists!", null)
-                    }
-                    return reject("Could not create user account", null)
+         user.save(function (err, user) {
+            if (err) {
+                logger.error("Could not create user account: " + err)
+                if (err.code = 1100) {
+                    return reject("User already exists!", null)
                 }
-                else {
-                    logger.debug("es sollte jetzt n statuscode 201 erzeugt")
-                    return resolve([null, user, 201])
-                }
-            })
-        }
+                return reject("Could not create user account", null)
+            }
+            else {
+                logger.debug("es sollte jetzt n statuscode 201 erzeugt")
+                return resolve([null, user, 201])
+            }
+        })
     })
 }
 
@@ -146,7 +144,7 @@ function getUsers(callback) {
 // ensure admin is in db
 async function findAdmin() {
     try {
-        const user = await User.findOne({isAdministrator: true})
+        const user = await User.findOne({ isAdministrator: true })
         return user
     } catch (err) {
         console.log(err.message)
@@ -161,7 +159,7 @@ async function makeAdmin() {
             password: "123",
             userName: "Default Administrator Account",
             isAdministrator: true,
-        }) 
+        })
         return adminUser
     } catch (err) {
         logger.debug(err)

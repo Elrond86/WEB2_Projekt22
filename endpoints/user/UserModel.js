@@ -2,13 +2,14 @@ var mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 
 const UserSchema = new mongoose.Schema({
-    id: Number,
+
     userID: { type: String, require: true, unique: true },
-    userName: String,
-    email: String,
-    password: String,
-    image: String,
-    isAdministrator: { type: Boolean, default: false }
+    userName: { type: String, default: "Wayne" },
+    isAdministrator: { type: Boolean, default: false },
+    password: { type: String, default: "123" },
+    email: { type: String, minLength: 6, lowercase: true },
+    createdAt: { type: Date, immutable: true, default: () => Date.now },
+    updatedAt: { type: Date, default: () => Date.now }
 }, { timestamps: true }
 );
 
@@ -25,10 +26,10 @@ UserSchema.pre("save", function (next) {
 
     //logger.debug("Pre-save: " + this.password + " change: " + this.isModified("password"));
 
-    if(!user.isModified("password")) { return next() };
+    if (!user.isModified("password")) { return next() };
     bcrypt.hash(user.password, 10).then((hashedPassword) => { //hier wird das passwort bereits MIT salt gehasht. die stärke des SALTS ist 10. der SALT wird auf diese Weise aber NICHT zusätzlich vor den hashwert angehängt...oder doch? (sehr kurz)
         user.password = hashedPassword;
-        next();    
+        next();
     })
 }, function (err) {
     next(err)
