@@ -4,7 +4,19 @@ const express = require("express")
 const router = express.Router()
 const logger = require("../../config/winston")
 const UserService = require("./UserService")
-const {isAuth, isAdmin} = require("../authentication/AuthenticationService")
+const { isAuth, isAdmin } = require("../authentication/AuthenticationService")
+
+/* create one user */
+router.post("/", isAuth, isAdmin, (req, res, next) => {
+  logger.debug(`Processing UserData... for User with userID '${req.body.userID}'...`)
+  UserService.createUser(req.body).then((message) => {
+    console.log(`User ${req.body.userID} sucessfully created`)
+    res.status(message[2]).send(`User ${req.body.userID} sucessfully created \r\r with Json-Body: \r ` + message[1])
+  }).catch((err) => {
+    res.status(err[2]).send(err[1])
+  })
+});
+
 
 /* get all users */
 router.get("/", isAuth, isAdmin, (req, res, next) => {
@@ -34,19 +46,6 @@ router.get('/:userID', isAuth, isAdmin, (req, res, next) => {
     })
 });
 
-
-/* create one user */
-router.post("/", isAuth, isAdmin, (req, res, next) => {
-  /* let state = `Processing UserData... for User with userID '${req.body.userID}'...`
-  logger.debug(state)
-  console.log(state) */
-  UserService.createUser(req.body).then((message) => {
-    console.log(`User ${req.body.userID} sucessfully created`)
-    res.status(message[2]).send(`User ${req.body.userID} sucessfully created \r\r with Json-Body: \r ` + message[1])
-  }).catch((err) => {
-    res.status(err[2]).send(err[1])
-  })
-});
 
 /* update user */
 router.put('/:userID', isAuth, isAdmin, (req, res, next) => {

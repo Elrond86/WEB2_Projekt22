@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const ForumThreadSchema = new mongoose.Schema({
   name: String,
@@ -9,6 +9,6 @@ const ForumThreadSchema = new mongoose.Schema({
 }, { timestamps: true }
 );
 
-const ForumThread = mongoose.model('ForumThread', ForumThreadSchema);
+const ForumThread = mongoose.model("ForumThread", ForumThreadSchema);
 
 module.exports = ForumThread;

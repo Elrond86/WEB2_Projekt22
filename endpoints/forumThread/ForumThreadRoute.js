@@ -24,11 +24,11 @@ router.get("/", async (req, res, next) => {
   logger.debug("Bin in Forumroute.get")
   try {
     const [response,status] = await ForumThreadService.getForumThreads()
-    console.log("status: " + status)
+    console.log("code: " + code)
     console.log(response)
-    res.send(response).status(status)
+    res.status(code).send(response)
   } catch (reject){
-    res.send(reject[0]).status(reject[1])
+    res.status(code).send(reject)
   }
 })
 

@@ -21,9 +21,9 @@ function createForumThread(ThreadData, currentuser) {
             if (err) {
                 logger.error("Could not create ForumThread: " + err)
                 if (err.code = 1100) {
-                    return reject("ForumThread already exists!", null)
+                    return reject(["ForumThread already exists!", null])
                 }
-                return reject("Could not create ForumThread", null)
+                return reject(["Could not create ForumThread", null])
             }
             else {
                 logger.debug("es sollte jetzt n statuscode 201 erzeugt")
@@ -49,7 +49,7 @@ function getForumThreads() {
             resolve([forums, 200])
         } 
         else {
-            reject(null, 404)
+            reject([null, 404])
         }
     })
 }
