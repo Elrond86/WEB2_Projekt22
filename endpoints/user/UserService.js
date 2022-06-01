@@ -15,13 +15,13 @@ function createUser(userData) {
         let user = new User()
         Object.assign(user, userData)
 
-         user.save(function (err, user) {
+        user.save(function (err, user) {
             if (err) {
                 logger.error("Could not create user account: " + err)
-                if (err.code = 1100) {
-                    return reject("User already exists!", null)
+                if (err.code == 11000) {
+                    return reject(["User already exists!", null, 400])
                 }
-                return reject("Could not create user account", null)
+                return reject(["Could not create user account", null, 500])
             }
             else {
                 logger.debug("es sollte jetzt n statuscode 201 erzeugt werden")

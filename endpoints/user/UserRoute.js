@@ -13,7 +13,7 @@ router.post("/", isAuth, isAdmin, (req, res, next) => {
     console.log(`User ${req.body.userID} sucessfully created`)
     res.status(message[2]).send(`User ${req.body.userID} sucessfully created \r\r with Json-Body: \r ` + message[1])
   }).catch((err) => {
-    res.status(err[2]).send(err[1])
+    res.status(err[2]).send(err[0])
   })
 });
 

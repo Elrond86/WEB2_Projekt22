@@ -23,7 +23,7 @@ router.post("/", isAuth, async (req, res, next) => {
 router.get("/", async (req, res, next) => {
   logger.debug("Bin in Forumroute.get")
   try {
-    const [response,status] = await ForumThreadService.getForumThreads()
+    const [response,code] = await ForumThreadService.getForumThreads()
     console.log("code: " + code)
     console.log(response)
     res.status(code).send(response)
