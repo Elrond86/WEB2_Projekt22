@@ -27,7 +27,7 @@ function createForumThread(ThreadData, currentuser) {
             }
             else {
                 logger.debug("es sollte jetzt n statuscode 201 erzeugt")
-                return resolve([null,201], Thread)
+                return resolve([null,201])
             }
         })
 
@@ -41,11 +41,12 @@ function createForumThread(ThreadData, currentuser) {
     return forums
 }; */
 
- function getForumThreads() {
-    return new Promise((resolve, reject) => {
-        const forums = ForumThread.find({})
+function getForumThreads() {
+    return new Promise( async (resolve, reject) => {
+        const forums = await ForumThread.find({}) 
+        //console.log(forums)
         if(forums){
-            resolve(forums, 200)
+            resolve([forums, 200])
         } 
         else {
             reject(null, 404)
