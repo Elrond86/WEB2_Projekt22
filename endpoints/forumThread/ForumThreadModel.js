@@ -4,8 +4,8 @@ const ForumThreadSchema = new mongoose.Schema({
   name: String,
   description: String,
   ownerID: String,
-  createdAt: { type: Date, immutable: true, default: () => Date.now },
-  updatedAt: { type: Date, default: () => Date.now }
+  createdAt: { type: Date, immutable: true, default: () => Date.now() },
+  updatedAt: { type: Date, default: () => Date.now() }
 }, { timestamps: true }
 );
 

@@ -43,6 +43,16 @@ Content-Type: application/json
     "password": "asdf"
 }
 
+// Ändere beim zweiten User den User-Name. Zur Selektion des Users verwende die userID.
+###
+PUT http://localhost:8080/Users/manfred
+Authorization: {{adminToken}}
+Content-Type: application/json
+
+{
+    "userName": "Manfred Müller"
+}
+
 
 ### Abrufen des angelegten Users mit dem Admin-Token
 GET http://localhost:8080/users/manfred

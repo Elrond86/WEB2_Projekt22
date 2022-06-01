@@ -48,7 +48,7 @@ function createForumThread(ThreadData, currentuser) {
             resolve(forums, 200)
         } 
         else {
-            reject("Did not find anything", 404)
+            reject(null, 404)
         }
     })
 }
