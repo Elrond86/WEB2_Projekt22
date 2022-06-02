@@ -22,18 +22,17 @@ router.post("/", isAuth, isAdmin, (req, res, next) => {
 router.get("/", isAuth, isAdmin, (req, res, next) => {
   UserService.getUsers(function (err, user) {
     if (user) {
-      res.send(Object.values(user))
+      res.send(Object.values(user)).status(999)
     }
     else {
-      res.send("There were issues")
+      res.send("There were issues").status(500)
     }
   })
-  logger.debug("Everything working fine in user route")
 });
 
 /* get one user */
 router.get('/:userID', isAuth, isAdmin, (req, res, next) => {
-  UserService.findUserBy(req.params.userID,
+  UserService.findUserBy(req.params.userID, 
     function (err, user) {
       if (user) {
         res.send(user)
@@ -49,7 +48,8 @@ router.get('/:userID', isAuth, isAdmin, (req, res, next) => {
 
 /* update user */
 router.put('/:userID', isAuth, isAdmin, (req, res, next) => {
-  UserService.updateUserById(req.params.userID, req.body, function (msg, user, code) {
+  UserService.updateUserById(req.params.userID, req.body, 
+    function (msg, user, code) {
     if (user) {
       res.status(code).json(user)
     } else {

@@ -72,14 +72,14 @@ function isAuth(req, res, next) {
         var privateKey = config.get('session.tokenKey');
         jwt.verify(token, privateKey, { algorithm: "HS256" }, (err, user) => {
             if (err) {
-                res.status(500).json({ error: "Not Authenticated" });
+                res.status(401).json({ error: "Not Authenticated" });
                 return;
             }
             req.user = user;
             return [req.user, next()];
         });
     } else {
-        res.status(500).json({ error: "Not Authenticated" });
+        res.status(401).json({ error: "Not Authenticated" });
         return;
     }
 }

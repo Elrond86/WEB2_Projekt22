@@ -38,7 +38,7 @@ Authorization: {{adminToken}}
 Content-Type: application/json
 
 {
-    "userID": "manfred",
+    "userID": "panfred",
     "userName": "Manfred Mustermann",
     "password": "asdf"
 }
@@ -93,7 +93,7 @@ Content-Type: application/json
 
 {
     "name": "Mein erstes Forum",
-    "description": "Das ist ein erstes Forum, das ich im Rahmen der Tests angelegt habe"
+    "description": "Das ist ein Xtes Forum, das ich im Rahmen der Tests angelegt habe"
 }
 
 

@@ -1,3 +1,120 @@
+/* get all threads verschiedene methoden gehen nicht...*/ 
+Route:
+
+
+router.get("/", async (req, res, next) => {
+  logger.debug("Getting all ForumThreads...")
+  try {
+    const Threads = ForumThreadService.getForumThreads()
+    Threads.exec()
+    console.log(Threads)
+    res.status(200).send(Threads)
+  } catch (err){
+    res.status(404).send(err)
+  }
+})
+
+
+router.get("/",  (req, res, next) => {
+  logger.debug("Getting all ForumThreads...")
+     ForumThreadService.getForumThreads()
+})
+
+router.get("/"), (req, res,next) => {
+  query.exec((err, forums)=>{
+    if(err) {
+        logger.error(err.message)
+        return err
+    }
+    else {
+        console.log(forums)
+        res.status(200).send(forums)
+    }
+})  
+}
+
+
+Service:
+
+// funzt
+function getForumThreads() {
+  logger.debug("Getting all ForumThreads...")
+  return new Promise(async (resolve, reject) => {
+      const forums = await ForumThread.find({})
+      if (forums) {
+          resolve(forums)
+      }
+      else {
+          reject([])
+      }
+  })
+}
+// funzt
+
+// funzt
+function getForumThreads() {
+  logger.debug("Getting all ForumThreads...")
+  const forums = ForumThread.find({}).exec()
+  console.log(forums)
+  return forums
+}
+// funzt
+
+
+
+
+
+
+//------------------- WARUM geht der return hier nicht, obwohl console.log funktioniert??  ---------------------//
+async function getForumThreads() {
+  logger.debug("Getting all ForumThreads...")
+  var forums = await ForumThread.find({})
+  console.log(forums)
+  console.log("err: " + err)
+  logger.debug(err)
+  return forums
+}
+//------------------- WARUM geht der return hier nicht, obwohl console.log funktioniert??  ---------------------//
+
+
+
+// funzt auch nicht
+function getForumThreads() {
+    logger.debug("Getting all ForumThreads...")
+    const query = ForumThread.find({})
+    query.exec((err, forums)=>{
+        if(err) {
+            logger.error(err.message)
+            return err
+        }
+        else {
+            console.log(forums)
+            res.status(200).send(forums)
+        }
+    })  
+}
+// funzt auch nicht
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//--------------------------------//
+
+
 // ForumService:
 
 // create forumThread

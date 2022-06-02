@@ -9,28 +9,26 @@ const logger = require("../../config/winston")
 
 /* create one Thread */   //die zwiete middleware nimmt nur req und nichts von der ersten. aber die erste MW kann das req verändern und dann nimmt die zwiete MW das veränderte req
 router.post("/", isAuth, async (req, res, next) => {
-  console.log(`Creating new Thread... `)
+  logger.debug(`Creating new Thread... `)
   try {
-    logger.debug("Bin in ForumRoute.post im Try")
-    response = await ForumThreadService.createForumThread(req.body, req.user)
-    res.send("Thread sucessfully created")
+    const Thread = await ForumThreadService.createForumThread(req.body, req.user)
+    res.status(201).send(Thread)
   } catch (err) {
-    res.send(err)
+    res.status(500).send(err)
   }
 })
 
 /* get all threads */
 router.get("/", async (req, res, next) => {
-  logger.debug("Bin in Forumroute.get")
+  logger.debug("Getting all ForumThreads...")
   try {
-    const [response,code] = await ForumThreadService.getForumThreads()
-    console.log("code: " + code)
-    console.log(response)
-    res.status(code).send(response)
-  } catch (reject){
-    res.status(code).send(reject)
+    const Threads = await ForumThreadService.getForumThreads()
+    res.status(200).send(Threads)
+  } catch (err){
+    res.status(404).send(err)
   }
 })
+
 
 
 

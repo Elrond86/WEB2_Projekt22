@@ -24,7 +24,7 @@ function createUser(userData) {
                 return reject(["Could not create user account", null, 500])
             }
             else {
-                logger.debug("es sollte jetzt n statuscode 201 erzeugt werden")
+                logger.debug("User created. Reporting to router...")
                 return resolve([null, user, 201])
             }
         })
