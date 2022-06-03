@@ -13,6 +13,7 @@ function createForumThread(ThreadData, currentuser) {
         let Thread = new ForumThread()
         Object.assign(Thread, ThreadData)
         Thread.ownerID = currentuser.userID
+
         Thread.save(function (err, Thread) {
             if (err) {
                 logger.error("Could not create ForumThread: " + err)
@@ -27,40 +28,63 @@ function createForumThread(ThreadData, currentuser) {
 }
 
 /* get all threads */
-
-function getForumThreads() {
+async function getForumThreads() {
     logger.debug("Getting all ForumThreads...")
-    const forums = ForumThread.find({}).exec()
-    console.log(forums)
+    const forums = await ForumThread.find({}).exec()
     return forums
+}
+
+/* find forumThread by ID */
+async function getForumThreadByID (searchThreadID) {
+    logger.debug(`searching for ForumThread with ThreadID: ${searchThreadID}...`)
+    const forum = await ForumThread.findOne({ _id: searchThreadID }).exec()
+    logger.debug(forum)
+    return forum
+}
+
+/* find all forumThreads by userID */
+async function getForumThreadsByUserID (searchOwnerID) {
+    logger.debug(`searching for ForumThreads with ownerID: ${searchOwnerID}...`)
+    const userThreads = await ForumThread.find({ ownerID: searchOwnerID }).exec()
+    logger.debug(userThreads)
+    return userThreads
+}
+
+/* update forumThread by ID */
+async function updateForumThreadByID (searchThreadID, UpdateData) {
+    logger.debug(`updating ForumThread with ThreadID: ${searchThreadID}...`)
+    const Thread = await ForumThread.updateOne({ _id: searchThreadID }, UpdateData).exec()
+    Object.assign(Thread, UpdateData)
+    return Thread
+}
+
+
+/* delete forumThread by ID */
+async function deleteThreadByID (searchThreadID) {
+    logger.debug(`trying to delete the thread with with ${searchThreadID} now...`)
+    try{
+        const thread = await ForumThread.deleteOne({ "_id": searchThreadID })
+        console.log(thread)
+        logger.debug("success")
+        return thread
+    } catch(err) {
+        return err
+    }
 }
 
 
 
+/* delete All ForumThreads */
+/* async function deleteThreadByID (searchThreadID) {
+    Thread.deleteOne({ "_id": searchThreadID }).exec()
+} */
 
-// find forumThread by ID
-const getForumThreadById = (threadID, callback) => {
-
-};
-
-// find forumThread by userID
-const getForumThreadsByUserId = (ownerID, callback) => {
-
-};
-
-const updateForumThreadById = (threadID, body, userID, isAdministrator, callback) => {
-
-};
-
-// delete forumThread by ID
-const deleteForumThreadById = (threadID, userID, isAdministrator, callback) => {
-};
 
 module.exports = {
     createForumThread,
     getForumThreads,
-    getForumThreadById,
-    updateForumThreadById,
-    getForumThreadsByUserId,
-    deleteForumThreadById
+    getForumThreadByID,
+    updateForumThreadByID,
+    getForumThreadsByUserID,
+    deleteThreadByID
 }

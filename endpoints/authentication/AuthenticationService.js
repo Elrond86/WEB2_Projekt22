@@ -61,7 +61,7 @@ function createSessionToken(props, callback) {
         }
         else {
             logger.debug("Session Services: Did not find user for user ID: " + props.userID)
-            callback("Did not find user", null);
+            callback("Did not find user", null, null, 404);
         }
     })
 }

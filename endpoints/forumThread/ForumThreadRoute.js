@@ -18,79 +18,97 @@ router.post("/", isAuth, async (req, res, next) => {
   }
 })
 
-/* get all threads */
+/* find all forumThreads ore all Threads of query-userID */
+/** if-scope he no like... hmm */
 router.get("/", async (req, res, next) => {
+
+ 
+  logger.debug(JSON.stringify(req.query))
+ 
+  
+  if (req.query.ownerID) {
+    logger.debug(`Getting ForumThreads with ownerID: ${req.query.ownerID}...`)
+    try {
+      const Threads = await ForumThreadService.getForumThreadsByUserID(req.query.ownerID)
+      res.status(200).send(Threads)
+    } catch (err) {
+      res.status(404).send(err)
+    }
+    return
+  }
+
+
+
+
   logger.debug("Getting all ForumThreads...")
   try {
     const Threads = await ForumThreadService.getForumThreads()
     res.status(200).send(Threads)
-  } catch (err){
+  } catch (err) {
     res.status(404).send(err)
   }
 })
 
+/* ACHTUNG: Dies Route "../myForumThreads" muss vor allen stehen, die eine ID in der Adresse haben, sonst wird sie nicht gefunden!
+/* get one Thread by CURRENT UserID */
+router.get("/myForumThreads", isAuth, async (req, res, next) => {
+  logger.debug(`Getting ForumThreads with ownerID: ${req.user.userID}...`)
+  logger.debug(req.params.forumThreadID)
+  try {
+    const Threads = await ForumThreadService.getForumThreadsByUserID(req.user.userID)
+    res.status(200).send(Threads)
+  } catch (err) {
+    res.status(404).send(err)
+  }
+})
+
+/* get one Thread by ThreadID */
+router.get("/:forumThreadID", async (req, res, next) => {
+  logger.debug("Getting ForumThreads with _id ${forumThreadID}...")
+  logger.debug(req.params.forumThreadID)
+  try {
+    const Threads = await ForumThreadService.getForumThreadByID(req.params.forumThreadID)
+    res.status(200).send(Threads)
+  } catch (err) {
+    res.status(404).send(err)
+  }
+})
+
+/* update forumThread */
+router.put("/:forumThreadID", isAuth, async (req, res, next) => {
+  logger.debug(req.params.forumThreadID)
+
+  try {
+    const Thread = await ForumThreadService.updateForumThreadByID(req.params.forumThreadID, req.body)
+
+    res.status(200).send(Thread)
+  } catch (err) {
+    res.status(500).send(err)
+  }
+})
+
+/* Auflisten der Foren einen bestimmten user */
+
+router.get("/")
 
 
-
-
-
-
-/* get one user */
-router.get('/:userID', isAuth, isAdmin, (req, res, next) => {
-  ForumThreadService.findUserBy(req.params.userID,
-    function (err, user) {
-      if (user) {
-        res.send(user)
-        logger.debug(user)
-      }
-      else {
-        logger.error(err)
-        res.send("Did not find any User with this userID" + [])
-      }
-    })
-}
-);
-
-
-/* update user */
-router.put('/:userID', isAuth, isAdmin, (req, res, next) => {
-  ForumThreadService.updateUserById(req.params.userID, req.body, function (msg, user, code) {
-    if (user) {
-      res.status(code).json(user)
-    } else {
-      res.status(code).json({
-        Error: msg
-      });
+/* delete Thread by ThreadID */
+router.delete('/:forumThreadID', isAuth, async (req, res, next) => {
+  logger.debug("starte try-catch...")
+  try {
+    const deleteQuery = await ForumThreadService.deleteThreadByID(req.params.forumThreadID)
+    if (deleteQuery.deletedCount == 0) {
+      res.status(404).send("Request was correct, but thread does not exist.")
     }
-  });
-});
+    res.status(200).send("Thread sucessfully deleted")
+  } catch (err) {
+    logger.error(err)
+    res.status(500).send(err)
+  }
+})
 
-/* delete user by ID */
-router.delete('/:userID', isAuth, isAdmin, (req, res, next) => {
-  ForumThreadService.deleteUserById(req.params.userID, function (msg, result, code) {
-    if (result) {
-      res.send(`User ${req.params.userID} succesfully deleted.`)
-    } else {
-      res.status(code).json({
-        Error: msg
-      })
-    }
-  })
-});
 
-/* delete all users */
-router.delete('/', isAuth, isAdmin, (req, res, next) => {
-  ForumThreadService.deleteAllUsers(function (err, result) {
-    if (result) {
-      res.status(200).json({
-        Message: `All users succesfully deleted`
-      });
-    } else {
-      res.status(500).json({
-        Error: `Could not delete all users`
-      })
-    }
-  })
-});
+/* delete all ForumThreads */
+
 
 module.exports = router

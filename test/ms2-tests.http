@@ -38,7 +38,7 @@ Authorization: {{adminToken}}
 Content-Type: application/json
 
 {
-    "userID": "panfred",
+    "userID": "manfred",
     "userName": "Manfred Mustermann",
     "password": "asdf"
 }
@@ -92,7 +92,7 @@ Authorization: {{adminToken}}
 Content-Type: application/json
 
 {
-    "name": "Mein erstes Forum",
+    "name": "Mein fff Forum",
     "description": "Das ist ein Xtes Forum, das ich im Rahmen der Tests angelegt habe"
 }
 
@@ -104,8 +104,12 @@ Content-Type: application/json
 ### Auflisten aller Foren ohne Token, nun sollte es ein Forum geben
 http://localhost:8080/forumThreads
 
+
 ### Abrufen von dem angelegten Forum-Thread
 http://localhost:8080/forumThreads/{{forumThreadID}}
+
+
+
 
 
 ### Ändere die forumDescription in dem existierenden Forum
@@ -117,12 +121,22 @@ Content-Type: application/json
     "description": "Das ist der neue Text, warum auch nicht."
 }
 
+
 ### Auflisten der Foren des aktuellen users
 GET http://localhost:8080/forumThreads/myForumThreads
-Authorization: {{adminToken}}
+Authorization: {{manfredToken}}
+
+
+
+
+### Abrufen von dem angelegten Forum-Thread
+http://localhost:8080/forumThreads/{{forumThreadID}}
 
 ### Auflisten der Foren einen bestimmten user
 GET http://localhost:8080/forumThreads?ownerID=manfred
+
+
+
 
 
 ### Lösche den angelegten Forum-Thread

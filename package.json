@@ -17,6 +17,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.3.1",
     "nodemon": "^2.0.16",
+    "openssl": "^2.0.0",
     "path": "^0.12.7",
     "winston": "^3.7.2"
   }

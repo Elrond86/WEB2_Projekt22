@@ -31,7 +31,7 @@ function createUser(userData) {
     })
 }
 
-//find User by userID
+/* find User by userID */ 
 function findUserBy(searchUserID, callback) {
     logger.debug(`UserService: searching for user with userID '${searchUserID}'...`)
     const query = User.findOne({ userID: searchUserID })
@@ -56,7 +56,8 @@ function findUserBy(searchUserID, callback) {
 function updateUserById(userID, body, callback) {
     User.findOne({ "userID": userID }, function (err, user) {
         if (user) {
-            Object.assign(user, body);
+            Object.assign(user, body)
+
             user.save(function (err) {
                 if (err) {
                     callback(err, null, 500);

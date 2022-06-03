@@ -55,8 +55,8 @@ function getForumThreads() {
 function getForumThreads() {
   logger.debug("Getting all ForumThreads...")
   const forums = ForumThread.find({}).exec()
-  console.log(forums)
-  return forums
+  console.log(forums)  //gibt promise zurück und nicht ergebnis von promise
+  return forums  //gibt auch nur promise zurück (vermutlich). aber wird mit await aufgerufen von der Route, also passt
 }
 // funzt
 
