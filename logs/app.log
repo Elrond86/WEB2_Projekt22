@@ -874,3 +874,5 @@
 {"level":"error","message":"(endpoints\\authentication\\AuthenticationRoute.js:31) Did not find user"}
 {"level":"error","message":"(endpoints\\authentication\\AuthenticationService.js:35) Password is invalid"}
 {"level":"error","message":"(endpoints\\authentication\\AuthenticationRoute.js:31) Password is invalid"}
+{"level":"error","message":"(endpoints\\authentication\\AuthenticationService.js:35) Password is invalid"}
+{"level":"error","message":"(endpoints\\authentication\\AuthenticationRoute.js:31) Password is invalid"}

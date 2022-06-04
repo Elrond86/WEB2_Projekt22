@@ -87,10 +87,6 @@ router.put("/:forumThreadID", isAuth, async (req, res, next) => {
   }
 })
 
-/* Auflisten der Foren einen bestimmten user */
-
-router.get("/")
-
 
 /* delete Thread by ThreadID */
 router.delete('/:forumThreadID', isAuth, async (req, res, next) => {
