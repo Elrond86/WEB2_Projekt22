@@ -21,11 +21,7 @@ router.post("/", isAuth, async (req, res, next) => {
 /* find all forumThreads ore all Threads of query-userID */
 /** if-scope he no like... hmm */
 router.get("/", async (req, res, next) => {
-
- 
   logger.debug(JSON.stringify(req.query))
- 
-  
   if (req.query.ownerID) {
     logger.debug(`Getting ForumThreads with ownerID: ${req.query.ownerID}...`)
     try {
@@ -36,10 +32,6 @@ router.get("/", async (req, res, next) => {
     }
     return
   }
-
-
-
-
   logger.debug("Getting all ForumThreads...")
   try {
     const Threads = await ForumThreadService.getForumThreads()
@@ -77,7 +69,6 @@ router.get("/:forumThreadID", async (req, res, next) => {
 /* update forumThread */
 router.put("/:forumThreadID", isAuth, async (req, res, next) => {
   logger.debug(req.params.forumThreadID)
-
   try {
     const Thread = await ForumThreadService.updateForumThreadByID(req.params.forumThreadID, req.body)
 
@@ -86,10 +77,6 @@ router.put("/:forumThreadID", isAuth, async (req, res, next) => {
     res.status(500).send(err)
   }
 })
-
-/* Auflisten der Foren einen bestimmten user */
-
-router.get("/")
 
 
 /* delete Thread by ThreadID */
@@ -109,6 +96,16 @@ router.delete('/:forumThreadID', isAuth, async (req, res, next) => {
 
 
 /* delete all ForumThreads */
+/* delete all users */
+/* router.delete('/', isAuth, isAdmin, async (req, res, next) => {
+  try {
+    await ForumThreadService.deleteAllThreads.exec()
+    res.status(200).json({ Message: `All users succesfully deleted` })
+  } catch (err) {
+    res.status(500).json({ Error: `Could not delete all users` })
+  }
+}); */
+
 
 
 module.exports = router
