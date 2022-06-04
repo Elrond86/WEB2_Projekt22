@@ -9,10 +9,10 @@ const { isAuth, isAdmin } = require("../authentication/AuthenticationService")
 /* create one user */
 router.post("/", isAuth, isAdmin, (req, res, next) => {
   logger.debug(`Processing UserData... for User with userID '${req.body.userID}'...`)
-  UserService.createUser(req.body).then((resolve) => {
+  UserService.createUser(req.body).then((user) => {
     console.log(`User ${req.body.userID} sucessfully created`)
     
-    res.status(201).json(resolve)
+    res.status(201).json(user)
   }).catch((err) => {
     res.status(err[2]).send(err[0])
   })
@@ -21,12 +21,12 @@ router.post("/", isAuth, isAdmin, (req, res, next) => {
 
 /* get all users */
 router.get("/", isAuth, isAdmin, (req, res, next) => {
-  UserService.getUsers(function (err, user) {
-    if (user) {
-      res.send(Object.values(user)).status(999)
+  UserService.getUsers(function (err, users) {
+    if (users) {
+      res.json(Object.values(users)).status(200)
     }
     else {
-      res.send("There were issues").status(500)
+      res.json({Message: "There were issues"}).status(500)
     }
   })
 });
@@ -36,12 +36,11 @@ router.get('/:userID', isAuth, isAdmin, (req, res, next) => {
   UserService.findUserBy(req.params.userID, 
     function (err, user) {
       if (user) {
-        res.send(user)
-        logger.debug(user)
+        res.json(user).status(200)
       }
       else {
         logger.error(err)
-        res.send("Did not find any User with this userID" + [])
+        res.json({Message: "Did not find any User with this userID"})
       }
     })
 });

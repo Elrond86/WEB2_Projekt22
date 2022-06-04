@@ -141,8 +141,12 @@ function getUsers(callback) {
             return callback(err, null)
         }
         else {
+            let userSubsets = users.map(user => {
+                const { userID, userName, isAdministrator, email } = user;
+                return { userID, userName, isAdministrator, email };
+            })
             logger.debug("All fine")
-            return callback(null, users)
+            return callback(null, userSubsets)
         }
     })
 }
