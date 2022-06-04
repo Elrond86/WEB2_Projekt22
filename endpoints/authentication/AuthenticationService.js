@@ -19,7 +19,7 @@ function createSessionToken(props, callback) {
     const [username, password] = credentials.split(':')
     logger.debug("base64Credentials: " + base64Credentials + ", username: " + username + ", password: " + password)
 
-    findUserBy(username, function (err, user) {
+    findUserBy(username, true, function (err, user) {
         logger.debug(`user: ${user}`)
         if (user) {
             logger.debug("Found user, checking password...")

@@ -19,7 +19,7 @@ router.get('/', (req, res, next) => {
             if (user) {
                 const { id, userID, userName, ...partialObject } = user
                 const subset = { id, userID, userName } /* ich hole mir aus user nur id, userID und Namen!!!!!  *01*  */
-                console.log(JSON.stringify(subset))  /* ...dann schreib ich nur diese Userdaten hier in den Body und geb es... */
+                logger.debug(JSON.stringify(subset))  /* ...dann schreib ich nur diese Userdaten hier in den Body und geb es... */
                 res.send(`Token created for user with body: \n ${JSON.stringify(subset)}`) /* ...an die response zurück  */
             }
             else {

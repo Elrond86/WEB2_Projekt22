@@ -32,7 +32,7 @@ function createUser(userData) {
 }
 
 /* find User by userID */
-function findUserBy(searchUserID, callback) {
+function findUserBy(searchUserID, returnCompleteUser = false, callback) {
     logger.debug(`UserService: searching for user with userID '${searchUserID}'...`)
     const query = User.findOne({ userID: searchUserID })
     query.exec(function (err, user) {
@@ -42,6 +42,7 @@ function findUserBy(searchUserID, callback) {
         }
         if (user) {
             logger.debug(`Found userID: ${searchUserID}`)
+            if (returnCompleteUser) return callback(null, user)
             const { userID, userName, isAdministrator, email } = user;
             const subset = { userID, userName, isAdministrator, email };
             callback(null, subset)

@@ -249,3 +249,159 @@ router.get("/", async (req, res, next) => {
   
   //------------------------------------------------------
   //------------------------------------------------------
+
+
+
+  //
+
+  AUTh anders
+
+  async function createSessionToken(props, callback) {
+    logger.debug("AuthenticationService: create Token");
+
+    if (!props) {
+        logger.debug("Error: have no json body")
+        callback("JSON-Body missing", null, null, 400)
+        return
+    }
+    logger.debug("props:" + props)
+    const base64Credentials = props.split(' ')[1]
+    const credentials = Buffer.from(base64Credentials, 'base64').toString('ascii')
+    const [searchUserID, password] = credentials.split(':')
+    logger.debug("base64Credentials: " + base64Credentials + ", userID: " + searchUserID + ", password: " + password)
+    logger.debug(`searching for User with userID: ${searchUserID}...`)
+    try{
+        const user = await user.findOne({ userID: searchUserID }).exec()
+        logger.debug(forum)
+        logger.debug(`user: ${user}`)
+
+        {
+            logger.debug("Found user, checking password...")
+    
+            user.comparePassword(password, function (err, isMatch) {
+    
+                if (err) {
+                    logger.debug("err: " + err)
+                    callback(err, null, null);
+                }
+                else if (!isMatch) {
+                    let err = "Password is invalid"
+                    logger.error(err)
+                    logger.debug(user.userID)
+                    callback(err, null, user.userID, 401);
+                }
+                else {
+                    logger.debug("Password is correct. Creating token...")
+    
+                    var issueAt = new Date().getTime()
+                    var expirationTime = config.get("session.timeout")
+                    var expiresAT = issueAt + (expirationTime * 1000)
+                    var privateKey = config.get("session.tokenKey")
+                    let token = jwt.sign({
+                        "userID": user.userID,
+                        "userName": user.userName,
+                        "isAdministrator": user.isAdministrator
+                    },
+                        privateKey,
+                        { expiresIn: expiresAT, algorithm: "HS256" })
+    
+                    logger.debug("Token created: " + token)
+                    console.log("Token created: " + token)
+    
+                    callback(null, token, user, 201)
+                }
+            }
+            )
+        }
+        else {
+            logger.debug("Session Services: Did not find user for user ID: " + props.userID)
+            callback("Did not find user", null, null, 404);
+        }
+
+    } catch (err){
+
+    }
+}
+
+
+
+
+//----------------
+
+/* get one user */
+router.get('/:userID', isAuth, isAdmin, (req, res, next) => {
+    UserService.findUserBy(req.params.userID, hideInessentails, 
+      function (err, user) {
+        if (user) {
+          res.send(user)
+          logger.debug(user)
+        }
+        else {
+          logger.error(err)
+          res.send("Did not find any User with this userID" + [])
+        }
+      })
+  });
+
+
+
+  function createSessionToken(props, callback) {
+    logger.debug("AuthenticationService: create Token");
+
+    if (!props) {
+        logger.debug("Error: have no json body")
+        callback("JSON-Body missing", null, null, 400)
+        return
+    }
+    logger.debug("props:" + props)
+    const base64Credentials = props.split(' ')[1]
+    const credentials = Buffer.from(base64Credentials, 'base64').toString('ascii')
+    const [username, password] = credentials.split(':')
+    logger.debug("base64Credentials: " + base64Credentials + ", username: " + username + ", password: " + password)
+
+    findUserBy(username, function (err, user) {
+        logger.debug(`user: ${user}`)
+        if (user) {
+            logger.debug("Found user, checking password...")
+
+            user.comparePassword(password, function (err, isMatch) {
+
+                if (err) {
+                    logger.debug("err: " + err)
+                    callback(err, null, null);
+                }
+                else if (!isMatch) {
+                    let err = "Password is invalid"
+                    logger.error(err)
+                    logger.debug(user.userID)
+                    callback(err, null, user.userID, 401);
+                }
+                else {
+                    logger.debug("Password is correct. Creating token...")
+
+                    var issueAt = new Date().getTime()
+                    var expirationTime = config.get("session.timeout")
+                    var expiresAT = issueAt + (expirationTime * 1000)
+                    var privateKey = config.get("session.tokenKey")
+                    let token = jwt.sign({
+                        "userID": user.userID,
+                        "userName": user.userName,
+                        "isAdministrator": user.isAdministrator
+                    },
+                        privateKey,
+                        { expiresIn: expiresAT, algorithm: "HS256" })
+
+                    logger.debug("Token created: " + token)
+                    console.log("Token created: " + token)
+
+                    callback(null, token, user, 201)
+                }
+            }
+            )
+        }
+        else {
+            logger.debug("Session Services: Did not find user for user ID: " + props.userID)
+            callback("Did not find user", null, null, 404);
+        }
+    })
+}
