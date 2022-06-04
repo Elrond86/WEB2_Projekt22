@@ -42,6 +42,14 @@ Authorization: {{adminToken}}
 GET https://localhost/users/admin
 Authorization: {{adminToken}}
 
+
+// Lösche alle User
+###
+DELETE  https://localhost/Users/
+Authorization: {{adminToken}}
+
+
+
 // Lege zweiten User an
 ###
 POST https://localhost/users
@@ -60,7 +68,7 @@ Authorization: {{adminToken}}
 Content-Type: application/json
 
 {
-    "userName": "Manfred Müller"
+    "userName": "Manfred Maier"
 }
 
 ### Auflisten aller Nutzer mit Token(Admin)
@@ -123,7 +131,7 @@ Authorization: Basic manfred:asdf
 ###
 @manfredToken = {{loginManfredCorrect.response.headers.Authorization}}
 
-### Auflisten aller ForumThreads von manfred
+### Auflisten aller ForumThreads von eingelogtem User manfred
 GET https://localhost/forumThreads/myForumThreads
 Authorization: {{manfredToken}}
 

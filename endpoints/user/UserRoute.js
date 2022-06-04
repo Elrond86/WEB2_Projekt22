@@ -9,9 +9,10 @@ const { isAuth, isAdmin } = require("../authentication/AuthenticationService")
 /* create one user */
 router.post("/", isAuth, isAdmin, (req, res, next) => {
   logger.debug(`Processing UserData... for User with userID '${req.body.userID}'...`)
-  UserService.createUser(req.body).then((message) => {
+  UserService.createUser(req.body).then((resolve) => {
     console.log(`User ${req.body.userID} sucessfully created`)
-    res.status(message[2]).send(`User ${req.body.userID} sucessfully created \r\r with Json-Body: \r ` + message[1])
+    
+    res.status(201).json(resolve)
   }).catch((err) => {
     res.status(err[2]).send(err[0])
   })
@@ -64,7 +65,7 @@ router.put('/:userID', isAuth, isAdmin, (req, res, next) => {
 router.delete('/:userID', isAuth, isAdmin, (req, res, next) => {
   UserService.deleteUserById(req.params.userID, function (msg, result, code) {
     if (result) {
-      res.send(`User ${req.params.userID} succesfully deleted.`)
+      res.json({ Message:  (`User ${req.params.userID} succesfully deleted.`)})
     } else {
       res.status(code).json({
         Error: msg

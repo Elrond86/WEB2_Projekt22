@@ -48,9 +48,9 @@ router.get("/myForumThreads", isAuth, async (req, res, next) => {
   logger.debug(req.params.forumThreadID)
   try {
     const Threads = await ForumThreadService.getForumThreadsByUserID(req.user.userID)
-    res.status(200).send(Threads)
+    res.status(200).json(Threads)
   } catch (err) {
-    res.status(404).send(err)
+    res.status(404).json(err)
   }
 })
 

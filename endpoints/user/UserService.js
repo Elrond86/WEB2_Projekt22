@@ -25,14 +25,16 @@ function createUser(userData) {
             }
             else {
                 logger.debug("User created. Reporting to router...")
-                return resolve([null, user, 201])
+                const { userID, userName, isAdministrator, email } = user;
+                const subset = { userID, userName, isAdministrator, email };
+                return resolve(subset)
             }
         })
     })
 }
 
 /* find User by userID */
-function findUserBy(searchUserID, callback, returnCompleteUser = false ) {
+function findUserBy(searchUserID, callback, returnCompleteUser = false) {
     logger.debug(`UserService: searching for user with userID '${searchUserID}'...`)
     const query = User.findOne({ userID: searchUserID })
     query.exec(function (err, user) {
