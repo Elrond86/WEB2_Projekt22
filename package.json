@@ -1,13 +1,13 @@
 {
   "name": "pro22",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "WebEngineering II Projekt SoSe2022",
+  "main": "http-Server.js",
   "scripts": {
-    "start": "node ./httpServer.js",
-    "mon": "nodemon ./httpServer.js"
+    "start": "node ./http-Server.js",
+    "dev": "nodemon ./http-Server.js"
   },
-  "author": "Lucas",
+  "author": "Lucas Knäuper",
   "license": "ISC",
   "dependencies": {
     "app-root-path": "^3.0.0",

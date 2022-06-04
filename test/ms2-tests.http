@@ -1,17 +1,17 @@
 // Lösche alle User
 ###
-DELETE  http://localhost:8080/publicUsers/
+DELETE  https://localhost:8080/publicUsers/
 
 
 // Re-test Meilenstein 1, es sollte der Standard-Admin in der Datenbank sein
 ###
-http://localhost:8080/publicUsers
+https://localhost:8080/publicUsers
 
 
 // Login mit Basic Authentication als admin mit korrekten Credentials admin:123
 ###
 # @name loginAdminCorrect
-GET http://localhost:8080/authenticate
+GET https://localhost:8080/authenticate
 Authorization: Basic YWRtaW46MTIz
 
 
