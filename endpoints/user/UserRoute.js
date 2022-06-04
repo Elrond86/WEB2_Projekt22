@@ -49,11 +49,11 @@ router.get('/:userID', isAuth, isAdmin, (req, res, next) => {
 /* update user */
 router.put('/:userID', isAuth, isAdmin, (req, res, next) => {
   UserService.updateUserById(req.params.userID, req.body, 
-    function (msg, user, code) {
+    function (msg, user) {
     if (user) {
-      res.status(code).json(user)
+      res.status(200).json(user)
     } else {
-      res.status(code).json({
+      res.status(500).json({
         Error: msg
       });
     }

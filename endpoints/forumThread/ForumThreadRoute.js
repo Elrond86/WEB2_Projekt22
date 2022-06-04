@@ -96,15 +96,14 @@ router.delete('/:forumThreadID', isAuth, async (req, res, next) => {
 
 
 /* delete all ForumThreads */
-/* delete all users */
-/* router.delete('/', isAuth, isAdmin, async (req, res, next) => {
+router.delete('/', isAuth, isAdmin, async (req, res, next) => {
   try {
-    await ForumThreadService.deleteAllThreads.exec()
-    res.status(200).json({ Message: `All users succesfully deleted` })
+    await ForumThreadService.deleteAllThreads(req)
+    res.status(200).json({ Message: `All Threads succesfully deleted` })
   } catch (err) {
-    res.status(500).json({ Error: `Could not delete all users` })
+    res.status(500).json({ Error: `Could not delete the Threads` })
   }
-}); */
+});
 
 
 

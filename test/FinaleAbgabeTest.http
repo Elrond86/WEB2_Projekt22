@@ -3,11 +3,7 @@
 // Lösche alle User
 ###
 DELETE  https://localhost/Users/
-
-
-// Lösche alle Threads
-###
-DELETE  https://localhost/forumThreads/
+Authorization: {{adminToken}}
 
 
 
@@ -29,12 +25,18 @@ Authorization: Basic admin:1234
 
 @adminToken = {{loginAdminCorrect.response.headers.Authorization}}
 
+
+
 ### Auflisten aller Nutzer ohne Token
 GET https://localhost/users
+
+
 
 ### Auflisten aller Nutzer mit Token(Admin)
 GET https://localhost/users
 Authorization: {{adminToken}}
+
+
 
 ### Abrufen eines konkreten Users per User-ID
 GET https://localhost/users/admin
@@ -65,9 +67,29 @@ Content-Type: application/json
 https://localhost/users
 Authorization: {{adminToken}}
 
+
+
+
+
+
+
 //
 // Forum Tests
 //
+### Auflisten aller Foren ohne Token
+
+
+// Lösche alle Threads FÜR DEV
+###
+DELETE  https://localhost/forumThreads/
+Authorization: {{adminToken}}
+
+
+### Auflisten der Foren des aktuellen users
+GET https://localhost/forumThreads/myForumThreads
+Authorization: {{adminToken}}
+
+
 ### Auflisten aller Foren ohne Token
 GET https://localhost/forumThreads
 
@@ -125,7 +147,8 @@ Content-Type: application/json
 GET https://localhost/forumThreads?ownerID=admin
 
 ### Foren für admin auflisten (es sollte 1 sein)
-GET https://localhost/forumThreads?ownerID=manfred
+GET https://localhost/forumThreads?ownerID=admin
+
 
 ###
 # @name createForumRequest
@@ -140,6 +163,13 @@ Content-Type: application/json
 
 ### Auflisten der Foren für den User manfred
 GET https://localhost/forumThreads?ownerID=manfred
+
+
+
+
+
+
+
 
 ### Forumnachrichten für einen bestimmten Forum-Thread abrufen
 GET https://localhost/forumThreads/{{forumThreadID}}/forumMessages

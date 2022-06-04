@@ -75,13 +75,13 @@ async function deleteThreadByID (searchThreadID) {
 
 
 /* delete All ForumThreads */
-/* async function deleteAllThreads (searchThreadID) {
+async function deleteAllThreads () {
     try{
-        await Thread.deleteMany({}).exec()
+        return await ForumThread.deleteMany({}).exec()
     } catch (err) {
         return err
     }
-} */
+}
 
 
 module.exports = {
@@ -91,5 +91,5 @@ module.exports = {
     updateForumThreadByID,
     getForumThreadsByUserID,
     deleteThreadByID,
-    //deleteAllThreads
+    deleteAllThreads
 }

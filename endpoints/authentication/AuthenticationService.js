@@ -19,7 +19,7 @@ function createSessionToken(props, callback) {
     const [username, password] = credentials.split(':')
     logger.debug("base64Credentials: " + base64Credentials + ", username: " + username + ", password: " + password)
 
-    findUserBy(username, true, function (err, user) {
+    findUserBy(username, function (err, user) {
         logger.debug(`user: ${user}`)
         if (user) {
             logger.debug("Found user, checking password...")
@@ -63,7 +63,7 @@ function createSessionToken(props, callback) {
             logger.debug("Session Services: Did not find user for user ID: " + props.userID)
             callback("Did not find user", null, null, 404);
         }
-    })
+    }, true)
 }
 
 function isAuth(req, res, next) {

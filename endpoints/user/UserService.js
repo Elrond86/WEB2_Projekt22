@@ -32,7 +32,7 @@ function createUser(userData) {
 }
 
 /* find User by userID */
-function findUserBy(searchUserID, returnCompleteUser = false, callback) {
+function findUserBy(searchUserID, callback, returnCompleteUser = false ) {
     logger.debug(`UserService: searching for user with userID '${searchUserID}'...`)
     const query = User.findOne({ userID: searchUserID })
     query.exec(function (err, user) {
@@ -63,12 +63,11 @@ function updateUserById(userID, body, callback) {
 
             user.save(function (err) {
                 if (err) {
-                    callback(err, null, 500);
+                    callback(err, null);
                 } else {
                     const { userID, userName, isAdministrator, email } = user;
                     const subset = { userID, userName, isAdministrator, email };
-                    callback(null, subset)
-                    callback(null, subset, 200);
+                    callback(null, subset);
                 }
             });
         } else {
