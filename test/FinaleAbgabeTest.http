@@ -1,3 +1,16 @@
+// für DEV
+
+// Lösche alle User
+###
+DELETE  https://localhost/Users/
+
+
+// Lösche alle Threads
+###
+DELETE  https://localhost/forumThreads/
+
+
+
 // Re-test Meilenstein 1, es sollte der Standard-Admin in der Datenbank sein
 ###
 GET https://localhost/publicUsers

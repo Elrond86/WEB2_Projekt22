@@ -31,8 +31,8 @@ function createUser(userData) {
     })
 }
 
-/* find User by userID */ 
-function findUserBy(searchUserID, callback) {
+/* find User by userID */
+function findUserBy(searchUserID, returnCompleteUser = false, callback) {
     logger.debug(`UserService: searching for user with userID '${searchUserID}'...`)
     const query = User.findOne({ userID: searchUserID })
     query.exec(function (err, user) {
@@ -42,7 +42,10 @@ function findUserBy(searchUserID, callback) {
         }
         if (user) {
             logger.debug(`Found userID: ${searchUserID}`)
-            callback(null, user)
+            if (returnCompleteUser) return callback(null, user)
+            const { userID, userName, isAdministrator, email } = user;
+            const subset = { userID, userName, isAdministrator, email };
+            callback(null, subset)
         }
         else {
             logger.error("Did not find user for userID: " + searchUserID)
@@ -62,8 +65,9 @@ function updateUserById(userID, body, callback) {
                 if (err) {
                     callback(err, null, 500);
                 } else {
-                    const { userID, userName, isAdministrator, password, email, createdAt, updatedAt, ...partialObject } = user;
-                    const subset = { userID, userName, isAdministrator, password, email, createdAt, updatedAt };
+                    const { userID, userName, isAdministrator, email } = user;
+                    const subset = { userID, userName, isAdministrator, email };
+                    callback(null, subset)
                     callback(null, subset, 200);
                 }
             });
