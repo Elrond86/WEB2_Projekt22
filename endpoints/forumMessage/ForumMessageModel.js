@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const ForumThread = require("../ForumThread/ForumThreadModel");
+const ForumThread = require("../forumThread/ForumThreadModel");
 const User = require("../user/UserModel");
 
 const ForumMessageSchema = new mongoose.Schema({
@@ -15,7 +15,7 @@ const ForumMessageSchema = new mongoose.Schema({
         ref: "ForumMessage"
     },
     authorID: { type: String, require: true},
-    authorRef: {
+    author: {
         type: mongoose.SchemaTypes.ObjectId,
         ref: "User"
     },

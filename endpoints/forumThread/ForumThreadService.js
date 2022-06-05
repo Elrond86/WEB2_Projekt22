@@ -1,6 +1,6 @@
-const ForumThread = require('./ForumThreadModel');
+const ForumThread = require("./ForumThreadModel");
 const logger = require("../../config/winston");
-const res = require('express/lib/response');
+const res = require("express/lib/response");
 
 
 // create forumThread
@@ -51,7 +51,7 @@ async function getForumThreadsByUserID (searchOwnerID) {
 /* update forumThread by ID */
 async function updateForumThreadByID (searchThreadID, UpdateData) {
     logger.debug(`updating ForumThread with ThreadID: ${searchThreadID}...`)
-    const Thread = await ForumThread.updateOne({ _id: searchThreadID }, UpdateData).exec()
+    const Thread = await ForumThread.findById(searchThreadID)
     Object.assign(Thread, UpdateData)
     return Thread
 }

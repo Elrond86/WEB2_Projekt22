@@ -3,7 +3,6 @@
 const express = require("express")
 const router = express.Router()
 const logger = require("../../config/winston")
-const ForumMessage = require("./ForumMessageModel")
 const FMService = require("./ForumMessageService")
 const { isAuth, isAdmin } = require("../authentication/AuthenticationService")
 

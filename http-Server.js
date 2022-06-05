@@ -7,7 +7,8 @@ const database = require("./database/db")
 const PublicUserRouter = require('./endpoints/publicUser/PublicUserRoute'),
       UserRoutes = require("./endpoints/user/UserRoute"),
       AuthenticationRoutes = require("./endpoints/authentication/AuthenticationRoute"),
-      ForumThreads = require("./endpoints/forumThread/ForumThreadRoute")
+      ForumThreads = require("./endpoints/forumThread/ForumThreadRoute"),
+      ForumMessages = require("./endpoints/forumMessage/ForumMessageRoute")
 
 const logger = require("./config/winston")
 
@@ -30,6 +31,7 @@ app.use('/publicUsers', PublicUserRouter)
 app.use("/users", UserRoutes)
 app.use("/authenticate", AuthenticationRoutes)
 app.use("/forumThreads", ForumThreads)
+app.use("/forumThreads", ForumMessages)
 /**
  * app.use(anyfunction) 
  *  app.use expects a function that takes request, response and next (req, res, next) and executes it. 
@@ -53,7 +55,7 @@ database.initDB(function (err, db) {
     const user = await findAdmin({});
     if (user == null) {
       makeAdmin();
-      console.log("Sucess.....Please change the default-password!")
+      console.log("Success.....Please change the default-password!")
     }
   } catch (err) {
     console.error(err);
