@@ -10,11 +10,13 @@ const { isAuth, isAdmin } = require("../authentication/AuthenticationService")
 /* create ForumMessage */
 router.post("/", isAuth, async (req, res, next) => {
   logger.debug(`Creating new ForumMessage... `)
+  
   try {
     const ForumMessage = await FMService.createFM(req)
-    res.status(201).send(ForumMessage)
+    res.status(201).json(ForumMessage)
   } catch (err) {
-    res.status(500).send(err)
+    err.message = "ForumID existiert nicht!"
+    res.status(500).json(err.message)
   }
 })
 
@@ -29,7 +31,7 @@ router.get("/", async (req, res, next) => {
   }
 })
 
-/* Auflisten aller Forumnachrichten für Forum über nachgelagerte Suche */ 
+ 
 // get forumMessage by ID
 router.get('/:forumMessageID', (req, res, next) => {
   FMService.getForumMessageById(req.params.forumMessageID, (msg, message, code) => {
@@ -42,6 +44,11 @@ router.get('/:forumMessageID', (req, res, next) => {
     }
   });
 });
+
+
+/* Auflisten aller Forumnachrichten für Forum über nachgelagerte Suche */
+//router.get(["/", "/:forumThreadID", ""])
+
 
 
 module.exports = router

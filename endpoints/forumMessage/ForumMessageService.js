@@ -3,14 +3,23 @@
 const logger = require("../../config/winston")
 const ForumMessage = require("./ForumMessageModel")
 const ForumThreadService = require("../forumThread/ForumThreadService");
-//const ForumThread = require("../forumThread/ForumThreadModel");
+const ForumThread = require("../forumThread/ForumThreadModel");
+const { Console } = require("winston/lib/winston/transports");
 
 /* create ForumMessage */
 
 async function createFM(FMessageData) {
     if ( !FMessageData.body.title || !FMessageData.body.text || !FMessageData.body.forumThreadID ) {
-        return ('Title, Text and ThreadID fields are required !');
+        throw URIError('Title, Text and ThreadID fields are required !');
       }
+      try{
+          var thread = await ForumThread.findById(FMessageData.body.forumThreadID)
+        }catch(err){
+            throw err
+        }
+    if (thread == undefined || thread == null)  {
+        
+    }
     try {
         //if(!ForumThread.exists({_id : "FMessageData.body.forumThreadID"})) throw ReferenceError
         const FMessage = await ForumMessage.create({
