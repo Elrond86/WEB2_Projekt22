@@ -73,6 +73,7 @@ Content-Type: application/json
 ###
 @forumThreadID = {{createForumRequest.response.body._id}}
 
+
 ### Auflisten aller Foren ohne Token
 GET https://localhost/forumThreads
 
@@ -128,11 +129,15 @@ Content-Type: application/json
 
 {
     "name": "Manfreds erstes Forum",
-    "description": "Das ist der Text von Manfred"
+    "description": "Das ist der neu neu neue Text von Manfred"
 }
 
 ### Auflisten der Foren für den User manfred
 GET https://localhost/forumThreads?ownerID=manfred
+
+
+
+
 
 ### Forumnachrichten für einen bestimmten Forum-Thread abrufen
 GET https://localhost/forumThreads/{{forumThreadID}}/forumMessages

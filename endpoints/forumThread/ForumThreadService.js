@@ -3,6 +3,7 @@ const logger = require("../../config/winston");
 const res = require("express/lib/response");
 
 
+
 // create forumThread
 function createForumThread(ThreadData, currentuser) {
     if (currentuser.userID == null || currentuser.userID == undefined) {
@@ -26,6 +27,8 @@ function createForumThread(ThreadData, currentuser) {
         })
     })
 }
+
+
 
 /* get all threads */
 async function getForumThreads() {
@@ -96,7 +99,17 @@ async function deleteAllThreads() {
 }
 
 
+/* remove unnecessary outputs */
+async function minimalThreads(thread) {
+    await Threads.map((thread)=>{
+        const { name, description, ownerID} = thread
+        return { name, description, ownerID}
+    })
+} 
+
+
 module.exports = {
+    minimalThreads,
     createForumThread,
     getForumThreads,
     getForumThreadByID,

@@ -8,7 +8,9 @@ const ForumThreadService = require("../forumThread/ForumThreadService");
 /* create ForumMessage */
 
 async function createFM(FMessageData) {
-
+    if ( !FMessageData.body.title || !FMessageData.body.text || !FMessageData.body.forumThreadID ) {
+        return ('Title, Text and ThreadID fields are required !');
+      }
     try {
         //if(!ForumThread.exists({_id : "FMessageData.body.forumThreadID"})) throw ReferenceError
         const FMessage = await ForumMessage.create({
