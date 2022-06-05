@@ -22,7 +22,7 @@ router.post("/", isAuth, async (req, res, next) => {
 router.get("/", async (req, res, next) => {
   logger.debug(`Getting all Messages of this ForumThread...`)
   try{
-    const messages = await FMService.getForumThreads(req.params.forumThreadID)
+    const messages = await FMService.getForumThreads(req.query.forumThreadID)
     res.status(200).json(messages)
   } catch (err) {
     res.status(500).json(err.message)

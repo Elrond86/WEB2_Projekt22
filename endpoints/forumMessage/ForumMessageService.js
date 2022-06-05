@@ -29,7 +29,7 @@ async function createFM(FMessageData) {
 /* get all Forum Messages for a ForumThreadID */
 async function getForumThreads(ID) {
     try {
-        const messages = await ForumMessage.where("forumThreadID").equals(ID)
+        const messages = await ForumMessage.find({forumThreadID : ID})
         return messages
     } catch (err) {
         return err
