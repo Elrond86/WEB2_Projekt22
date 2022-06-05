@@ -21,9 +21,7 @@ function createForumThread(ThreadData, currentuser) {
             }
             else {
                 logger.debug("Thread created. Reporting to router...")
-                const { name, description, ownerID, ...partialObject } = Thread
-                const subset = { name, description, ownerID } 
-                resolve(subset)
+                resolve(Thread)
             }
         })
     })
