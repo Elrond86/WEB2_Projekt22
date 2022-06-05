@@ -17,7 +17,7 @@ var options = {
   console: {
     level: "debug",  //Optionen: "debug", "error"
     handleExceptions: true,
-    json: false,
+    json: true,
     colorize: true,
   },
 }

@@ -1,10 +1,11 @@
 const mongoose = require("mongoose");
 const ForumThread = require("../forumThread/ForumThreadModel");
 const User = require("../user/UserModel");
+const logger = require("../../config/winston")
 
 const ForumMessageSchema = new mongoose.Schema({
     forumThreadID: { type: String, require: true },
-    parentThread: {
+    parentThread_id: {
         type: mongoose.SchemaTypes.ObjectId,
         ref: "ForumThread",
         //default: () => forumThreadID
@@ -12,7 +13,7 @@ const ForumMessageSchema = new mongoose.Schema({
     title: { type: String, require: true },
     text: { type: String, require: true },
     authorID: { type: String, require: true },
-    author: {
+    author_id: {
         type: mongoose.SchemaTypes.ObjectId,
         ref: "User"
     },
@@ -24,11 +25,17 @@ const ForumMessageSchema = new mongoose.Schema({
 );
 
 
-/* ForumMessageSchema.pre("save", function (next) {
-    this.parentThread = this.get("forumThreadID");
-    this.author = this.get(authorID);
+ForumMessageSchema.pre("save", async function (next) {
+    
+    this.parentThread_id = this.get("forumThreadID");
+    
+    var user = await User.findOne({userID : this.authorID}).select("_id")
+    console.log("user: ")
+    console.log(user)
+    this.author_id = JSON.stringify(user).split('"')[3];
+    this.author_id
     next();
-}) */
+})
 
 
 
