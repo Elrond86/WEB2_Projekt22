@@ -43,12 +43,6 @@ GET https://localhost/users/manfred
 Authorization: {{adminToken}}
 
 
-// Lösche alle User
-###
-DELETE  https://localhost/Users/
-Authorization: {{adminToken}}
-
-
 
 // Lege zweiten User an
 ###
@@ -69,7 +63,8 @@ Authorization: {{adminToken}}
 Content-Type: application/json
 
 {
-    "email": "Manfred Maier"
+    "userName": "Manfred Maier",
+    "email": "asbc@de.com"
 }
 
 ### Auflisten aller Nutzer mit Token(Admin)
@@ -102,7 +97,7 @@ Authorization: {{adminToken}}
 ### Auflisten aller Foren ohne Token
 GET https://localhost/forumThreads
 
-// Lege ein ersten Forum an, der Administrator ist owner
+// Lege ein erstes Forum an, der Administrator ist owner
 ###
 # @name createForumRequest
 POST https://localhost/forumThreads
@@ -124,12 +119,13 @@ GET https://localhost/forumThreads
 GET https://localhost/forumThreads/myForumThreads
 Authorization: {{adminToken}}
 
+
 // Login mit Basic Authentication als manfred mit korrekten Credentials admin:123
 ###
 # @name loginManfredCorrect
 GET https://localhost/authenticate
 Authorization: Basic manfred:asdf
-###
+###rs
 @manfredToken = {{loginManfredCorrect.response.headers.Authorization}}
 
 ### Auflisten aller ForumThreads von eingelogtem User manfred

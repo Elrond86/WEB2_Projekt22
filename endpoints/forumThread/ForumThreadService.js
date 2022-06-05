@@ -35,37 +35,42 @@ async function getForumThreads() {
 }
 
 /* find forumThread by ID */
-async function getForumThreadByID (searchThreadID) {
+async function getForumThreadByID(searchThreadID) {
+    if (searchThreadID.length != 24){
+        throw TypeError("Provided ID was of wrong format")
+    } 
     logger.debug(`searching for ForumThread with ThreadID: ${searchThreadID}...`)
-    const forum = await ForumThread.findOne({ _id: searchThreadID }).exec()
+    const forum = await ForumThread.findById(searchThreadID)
     return forum
 }
 
+
 /* find all forumThreads by userID */
-async function getForumThreadsByUserID (searchOwnerID) {
+async function getForumThreadsByUserID(searchOwnerID) {
     logger.debug(`searching for ForumThreads with ownerID: ${searchOwnerID}...`)
     const userThreads = await ForumThread.find({ ownerID: searchOwnerID }).exec()
     return userThreads
 }
 
 /* update forumThread by ID */
-async function updateForumThreadByID (searchThreadID, UpdateData) {
+async function updateForumThreadByID(searchThreadID, UpdateData) {
     logger.debug(`updating ForumThread with ThreadID: ${searchThreadID}...`)
-    const Thread = await ForumThread.findById(searchThreadID)
+    const Thread = await ForumThread.findById(searchThreadID).exec()
     Object.assign(Thread, UpdateData)
+    await Thread.save()
     return Thread
 }
 
 
 /* delete forumThread by ID */
-async function deleteThreadByID (searchThreadID) {
+async function deleteThreadByID(searchThreadID) {
     logger.debug(`trying to delete the thread with with ${searchThreadID} now...`)
-    try{
+    try {
         const thread = await ForumThread.deleteOne({ "_id": searchThreadID })
         console.log(thread)
         logger.debug("success")
         return thread
-    } catch(err) {
+    } catch (err) {
         return err
     }
 }
@@ -73,8 +78,8 @@ async function deleteThreadByID (searchThreadID) {
 
 
 /* delete All ForumThreads */
-async function deleteAllThreads () {
-    try{
+async function deleteAllThreads() {
+    try {
         return await ForumThread.deleteMany({}).exec()
     } catch (err) {
         return err

@@ -62,7 +62,8 @@ router.get("/:forumThreadID", async (req, res, next) => {
     const Threads = await ForumThreadService.getForumThreadByID(req.params.forumThreadID)
     res.status(200).send(Threads)
   } catch (err) {
-    res.status(404).send(err)
+    logger.debug("err: " + err.message)
+    res.status(400).send(err.message)
   }
 })
 
