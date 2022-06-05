@@ -11,7 +11,7 @@ const { isAuth, isAdmin } = require("../authentication/AuthenticationService")
 router.post("/", isAuth, async (req, res, next) => {
   logger.debug(`Creating new ForumMessage... `)
   try {
-    const ForumMessage = await FMService.createFM(req.body, req.user.userID)
+    const ForumMessage = await FMService.createFM(req)
     res.status(201).send(ForumMessage)
   } catch (err) {
     res.status(500).send(err)

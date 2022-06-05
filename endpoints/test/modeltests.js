@@ -23,10 +23,11 @@ async function run() {
         //const message = await forumMessage.where('title').equals('Mambo').limit(1)
         const message = await forumMessage.where("title")
         .equals("Mambo")
-        .populate("responseTo")
+        //.populate("responseTo")
         .limit("1")
-        //
-        console.log(message)
+        .select("title")
+        .select("text")
+        console.log(message.select("title"))
     }catch (e){
         console.log(e.message)
     }
