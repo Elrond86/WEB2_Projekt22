@@ -21,7 +21,9 @@ function createForumThread(ThreadData, currentuser) {
             }
             else {
                 logger.debug("Thread created. Reporting to router...")
-                resolve(Thread)
+                const { name, description, ownerID, ...partialObject } = Thread
+                const subset = { name, description, ownerID } 
+                resolve(subset)
             }
         })
     })
@@ -30,8 +32,12 @@ function createForumThread(ThreadData, currentuser) {
 /* get all threads */
 async function getForumThreads() {
     logger.debug("Getting all ForumThreads...")
-    const forums = await ForumThread.find({}).exec()
-    return forums
+    const Threads = await ForumThread.find({}).exec()
+    const minimalThreads = Threads.map((thread)=>{
+        const { name, description, ownerID} = thread
+        return { name, description, ownerID}
+    })
+    return minimalThreads
 }
 
 /* find forumThread by ID */
@@ -48,18 +54,23 @@ async function getForumThreadByID(searchThreadID) {
 /* find all forumThreads by userID */
 async function getForumThreadsByUserID(searchOwnerID) {
     logger.debug(`searching for ForumThreads with ownerID: ${searchOwnerID}...`)
-    const userThreads = await ForumThread.find({ ownerID: searchOwnerID }).exec()
-    return userThreads
+    const userThreads = await ForumThread.find({ ownerID: searchOwnerID })
+    const minimalThreads = userThreads.map((thread)=>{
+        const { name, description, ownerID} = thread
+        return { name, description, ownerID}
+    })
+    return minimalThreads
 }
 
 /* update forumThread by ID */
 async function updateForumThreadByID(searchThreadID, UpdateData) {
     logger.debug(`updating ForumThread with ThreadID: ${searchThreadID}...`)
-    const Thread = await ForumThread.findById(searchThreadID).exec()
+    const Thread = await ForumThread.findById(searchThreadID)
     Object.assign(Thread, UpdateData)
     await Thread.save()
     return Thread
 }
+
 
 
 /* delete forumThread by ID */

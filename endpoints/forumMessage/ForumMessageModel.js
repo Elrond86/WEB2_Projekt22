@@ -7,8 +7,7 @@ const ForumMessageSchema = new mongoose.Schema({
     forumThreadID: { type: String, require: true },
     parentThread_id: {
         type: mongoose.SchemaTypes.ObjectId,
-        ref: "ForumThread",
-        //default: () => forumThreadID
+        ref: "ForumThread"
     },
     title: { type: String, require: true },
     text: { type: String, require: true },

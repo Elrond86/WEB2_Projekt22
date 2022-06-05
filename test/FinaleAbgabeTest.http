@@ -1,12 +1,3 @@
-// für DEV
-
-// Lösche alle User
-###
-DELETE  https://localhost/Users/
-Authorization: {{adminToken}}
-
-
-
 // Re-test Meilenstein 1, es sollte der Standard-Admin in der Datenbank sein
 ###
 GET https://localhost/publicUsers
@@ -25,24 +16,16 @@ Authorization: Basic admin:1234
 
 @adminToken = {{loginAdminCorrect.response.headers.Authorization}}
 
-
-
 ### Auflisten aller Nutzer ohne Token
 GET https://localhost/users
-
-
 
 ### Auflisten aller Nutzer mit Token(Admin)
 GET https://localhost/users
 Authorization: {{adminToken}}
 
-
-
 ### Abrufen eines konkreten Users per User-ID
-GET https://localhost/users/manfred
+GET https://localhost/users/admin
 Authorization: {{adminToken}}
-
-
 
 // Lege zweiten User an
 ###
@@ -53,8 +36,7 @@ Content-Type: application/json
 {
     "userID": "manfred",
     "userName": "Manfred Mustermann",
-    "password": "asdf",
-    "email": "asbc@de.com"
+    "password": "asdf"
 }
 
 ###
@@ -63,41 +45,20 @@ Authorization: {{adminToken}}
 Content-Type: application/json
 
 {
-    "userName": "Manfred Maier",
-    "email": "asbc@de.com"
+    "userName": "Manfred Müller"
 }
 
 ### Auflisten aller Nutzer mit Token(Admin)
 https://localhost/users
 Authorization: {{adminToken}}
 
-
-
-
-
-
-
 //
 // Forum Tests
 //
 ### Auflisten aller Foren ohne Token
-
-
-// Lösche alle Threads FÜR DEV
-###
-DELETE  https://localhost/forumThreads/
-Authorization: {{adminToken}}
-
-
-### Auflisten der Foren des aktuellen users
-GET https://localhost/forumThreads/myForumThreads
-Authorization: {{adminToken}}
-
-
-### Auflisten aller Foren ohne Token
 GET https://localhost/forumThreads
 
-// Lege ein erstes Forum an, der Administrator ist owner
+// Lege ein ersten Forum an, der Administrator ist owner
 ###
 # @name createForumRequest
 POST https://localhost/forumThreads
@@ -119,18 +80,23 @@ GET https://localhost/forumThreads
 GET https://localhost/forumThreads/myForumThreads
 Authorization: {{adminToken}}
 
-
 // Login mit Basic Authentication als manfred mit korrekten Credentials admin:123
 ###
 # @name loginManfredCorrect
 GET https://localhost/authenticate
 Authorization: Basic manfred:asdf
-###rs
+###
 @manfredToken = {{loginManfredCorrect.response.headers.Authorization}}
 
-### Auflisten aller ForumThreads von eingelogtem User manfred
+### Auflisten aller ForumThreads von manfred
 GET https://localhost/forumThreads/myForumThreads
 Authorization: {{manfredToken}}
+
+
+
+
+
+
 
 ### Forum mit einer bestimmten ID abrufen
 GET https://localhost/forumThreads/{{forumThreadID}}
@@ -152,8 +118,7 @@ Content-Type: application/json
 GET https://localhost/forumThreads?ownerID=admin
 
 ### Foren für admin auflisten (es sollte 1 sein)
-GET https://localhost/forumThreads?ownerID=admin
-
+GET https://localhost/forumThreads?ownerID=manfred
 
 ###
 # @name createForumRequest
@@ -168,13 +133,6 @@ Content-Type: application/json
 
 ### Auflisten der Foren für den User manfred
 GET https://localhost/forumThreads?ownerID=manfred
-
-
-
-
-
-
-
 
 ### Forumnachrichten für einen bestimmten Forum-Thread abrufen
 GET https://localhost/forumThreads/{{forumThreadID}}/forumMessages

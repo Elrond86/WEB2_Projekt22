@@ -14,4 +14,5 @@ const ForumThread = mongoose.model("ForumThread", ForumThreadSchema);
 module.exports = ForumThread;
 
 
-// hier kann man nur normale und keine arrow-functionen machen, weil man this. benutzten muss!
+/** hier kann man nur normale und keine arrow-functionen machen, weil man this. benutzten muss!
+ *  wenn man die woanders weiter benutzen will!*/ 

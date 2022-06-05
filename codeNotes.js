@@ -24,3 +24,9 @@ ForumMessageSchema.pre("save", function (next) {
 },function (err) {
     next(err)
 })
+
+
+
+let filteredMessages = messages.map(message => {
+    const { _id, title, text, forumThreadID, userID, edited, likes, dislikes } = message;
+    return { _id, title, text, forumThreadID, userID, edited, likes, dislikes };

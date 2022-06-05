@@ -7,7 +7,7 @@ const UserSchema = new mongoose.Schema({
     userName: { type: String, default: "Wayne" },
     isAdministrator: { type: Boolean, default: false },
     password: { type: String, default: "123" },
-    email: { type: String, minLength: 6, lowercase: true , unique: true},
+    email: { type: String},
     createdAt: { type: Date, immutable: true, default: () => Date.now() },
     updatedAt: { type: Date, default: () => Date.now() }
 }, { timestamps: true }
