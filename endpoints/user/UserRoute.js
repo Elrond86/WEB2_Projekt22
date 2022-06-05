@@ -14,7 +14,7 @@ router.post("/", isAuth, isAdmin, (req, res, next) => {
     
     res.status(201).json(user)
   }).catch((err) => {
-    res.status(err[2]).send(err[0])
+    res.status(err[2]).json({Message: err[0]})
   })
 });
 

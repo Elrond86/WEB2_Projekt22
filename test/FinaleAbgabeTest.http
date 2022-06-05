@@ -39,7 +39,7 @@ Authorization: {{adminToken}}
 
 
 ### Abrufen eines konkreten Users per User-ID
-GET https://localhost/users/admin
+GET https://localhost/users/manfred
 Authorization: {{adminToken}}
 
 
@@ -59,7 +59,8 @@ Content-Type: application/json
 {
     "userID": "manfred",
     "userName": "Manfred Mustermann",
-    "password": "asdf"
+    "password": "asdf",
+    "email": "asbc@de.com"
 }
 
 ###
@@ -68,7 +69,7 @@ Authorization: {{adminToken}}
 Content-Type: application/json
 
 {
-    "userName": "Manfred Maier"
+    "email": "Manfred Maier"
 }
 
 ### Auflisten aller Nutzer mit Token(Admin)

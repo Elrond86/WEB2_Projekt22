@@ -38,7 +38,6 @@ async function getForumThreads() {
 async function getForumThreadByID (searchThreadID) {
     logger.debug(`searching for ForumThread with ThreadID: ${searchThreadID}...`)
     const forum = await ForumThread.findOne({ _id: searchThreadID }).exec()
-    logger.debug(forum)
     return forum
 }
 
@@ -46,7 +45,6 @@ async function getForumThreadByID (searchThreadID) {
 async function getForumThreadsByUserID (searchOwnerID) {
     logger.debug(`searching for ForumThreads with ownerID: ${searchOwnerID}...`)
     const userThreads = await ForumThread.find({ ownerID: searchOwnerID }).exec()
-    logger.debug(userThreads)
     return userThreads
 }
 

@@ -19,7 +19,7 @@ function createUser(userData) {
             if (err) {
                 logger.error("Could not create user account: " + err)
                 if (err.code == 11000) {
-                    return reject(["User already exists!", null, 400])
+                    return reject(["This userID or eMail-adress already exists. Please choose a unique userID and eMail-Adress!", null, 400])
                 }
                 return reject(["Could not create user account", null, 500])
             }
