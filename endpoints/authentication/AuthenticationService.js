@@ -52,7 +52,7 @@ function createSessionToken(props, callback) {
                         { expiresIn: expiresAT, algorithm: "HS256" })
 
                     logger.debug("Token created: " + token)
-                    console.log("Token created: " + token)
+                    
 
                     callback(null, token, user, 201)
                 }
@@ -86,7 +86,7 @@ function isAuth(req, res, next) {
 
 function isAdmin(req, res, next) {
     const admin = req.user.isAdministrator
-    console.log(`${req.user.userID}.isAdministrator: ` + admin)
+    
     if(admin){
         next();
     } else {

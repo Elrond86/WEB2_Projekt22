@@ -46,8 +46,6 @@ router.get('/:forumMessageID', (req, res, next) => {
 });
 
 
-/* Auflisten aller Forumnachrichten für Forum über nachgelagerte Suche */
-//router.get(["/", "/:forumThreadID", ""])
 
 
 

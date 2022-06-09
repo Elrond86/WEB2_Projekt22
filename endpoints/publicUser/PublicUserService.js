@@ -18,7 +18,6 @@ async function createUser(userData) {
             user.save(function (err, user) {
                 if (err) {
                     logger.error("Could not create user account: " + err.message)
-                    //console.log(err.errors)
                     if (err.code == 1100) {
                         reject("User already exists!")
                     }
@@ -33,7 +32,6 @@ async function createUser(userData) {
     })
 }
 
-// ensure admin is in db
 
 
 //find User by userID

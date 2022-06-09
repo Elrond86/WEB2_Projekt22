@@ -7,7 +7,7 @@ const { isAuth, isAdmin } = require("../authentication/AuthenticationService")
 const logger = require("../../config/winston")
 
 
-/* create one Thread */   //die zwiete middleware nimmt nur req und nichts von der ersten. aber die erste MW kann das req verändern und dann nimmt die zwiete MW das veränderte req
+/* create one Thread */   
 router.post("/", isAuth, async (req, res, next) => {
   logger.debug(`Creating new Thread... `)
   try {
@@ -19,7 +19,6 @@ router.post("/", isAuth, async (req, res, next) => {
 })
 
 /* find all forumThreads ore all Threads of query-userID */
-/** if-scope he no like... hmm */
 router.get("/", async (req, res, next) => {
   logger.debug(JSON.stringify(req.query))
   if (req.query.ownerID) {
@@ -41,7 +40,6 @@ router.get("/", async (req, res, next) => {
   }
 })
 
-/* ACHTUNG: Dies Route "../myForumThreads" muss vor allen stehen, die eine ID in der Adresse haben, sonst wird sie nicht gefunden!
 /* get one Thread by CURRENT UserID */
 router.get("/myForumThreads", isAuth, async (req, res, next) => {
   logger.debug(`Getting ForumThreads with ownerID: ${req.user.userID}...`)

@@ -7,7 +7,6 @@ const ForumThread = require("../forumThread/ForumThreadModel");
 const { Console } = require("winston/lib/winston/transports");
 
 /* create ForumMessage */
-
 async function createFM(FMessageData) {
     if ( !FMessageData.body.title || !FMessageData.body.text || !FMessageData.body.forumThreadID ) {
         throw URIError('Title, Text and ThreadID fields are required !');
@@ -21,7 +20,6 @@ async function createFM(FMessageData) {
         
     }
     try {
-        //if(!ForumThread.exists({_id : "FMessageData.body.forumThreadID"})) throw ReferenceError
         const FMessage = await ForumMessage.create({
             forumThreadID: FMessageData.body.forumThreadID,
             title: FMessageData.body.title,
